@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "340084759216",
+    "project_id": "despachoaiep-903c7",
+    "storage_bucket": "despachoaiep-903c7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340084759216:android:53ccfeef7ee8d6ef577975",
+        "android_client_info": {
+          "package_name": "com.lll.despachoaiep"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvpid9PqsgPVytjYJ9ngTXPpwGOrlt6XU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
