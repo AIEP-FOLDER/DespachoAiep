@@ -38,7 +38,7 @@ import com.lll.despachoaiep.ui.theme.ShapeButton
 
 @Preview
 @Composable
-fun InitialScreen() {
+fun InitialScreen(navigateToLogin: () -> Unit = {}, navigateToSignUp: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,7 +55,7 @@ fun InitialScreen() {
         Text("Despacho AIEP", color = Color.White, fontSize = 38.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.weight(1f))
         Button(
-            onClick = {},
+            onClick = { navigateToSignUp() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
@@ -71,7 +71,14 @@ fun InitialScreen() {
             "Continue with Google "
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Log In", color = Color.White, modifier = Modifier.padding(24.dp), fontWeight = FontWeight.Bold)
+        Text(
+            text = "Log In",
+            color = Color.White,
+            modifier = Modifier
+                .padding(24.dp)
+                .clickable { navigateToLogin() },
+            fontWeight = FontWeight.Bold
+        )
         Spacer(modifier = Modifier.weight(1f))
     }
 }
