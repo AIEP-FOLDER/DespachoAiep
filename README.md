@@ -40,7 +40,6 @@ Aplicación móvil para la gestión de compras y cálculo automático de despach
 - **Kotlin + Jetpack Compose**
 - **Firebase Authentication**
 - **Credential Manager API**
-- **BLE / MQTT (simulado) para monitoreo de temperatura**
 - **Gradle + Modularización por feature**
 - **Compatibilidad con Android API 21+**
 
