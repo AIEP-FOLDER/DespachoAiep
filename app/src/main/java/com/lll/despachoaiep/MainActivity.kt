@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.lll.despachoaiep.presentation.signup.GoogleAuthClient
 import com.lll.despachoaiep.ui.theme.DespachoAiepTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,6 +27,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
         enableEdgeToEdge()
+
+
         setContent {
             navHostController = rememberNavController()
             DespachoAiepTheme {
@@ -46,6 +49,8 @@ class MainActivity : ComponentActivity() {
             // navegar al home
             Log.i("Matias", "stoy log")
             // navegar al home
+
+            //auth.signOut()
         }
     }
 }

@@ -9,12 +9,22 @@ lifecycleRuntimeKtx = "2.9.3"
 activityCompose = "1.10.1"
 composeBom = "2024.09.00"
 
-firebaseBom = "33.1.1"
+firebaseBom = "34.2.0"
+gmsGoogleServices = "4.4.2"
+firebaseAuth = "24.0.1"
+credentials = "1.5.0"
 services = "4.4.2"
 crashlytics = "3.0.2"
 
 navigationCompose = "2.7.7"
 coil = "2.7.0"
+
+credentialsPlayServicesAuth = "1.5.0"
+googleid = "1.1.1"
+
+
+
+
 
 
 [libraries]
@@ -35,21 +45,31 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-firebase-crashlytics = {module = "com.google.firebase:firebase-crashlytics" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+firebase-crashlytics = {module = "com.google.firebase:firebase-crashlytics" }
+
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = {module= "com.google.firebase:firebase-firestore"}
 firebase-realtime = {module= "com.google.firebase:firebase-database-ktx"}
 firebase-config = {module = "com.google.firebase:firebase-config-ktx"}
+
 
 coil = {module = "io.coil-kt:coil-compose", version.ref = "coil"}
 
 androidx-navigation-compose = {module = "androidx.navigation:navigation-compose" , version.ref = "navigationCompose"}
 
 
+
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentialsPlayServicesAuth" }
+androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-googleServices = { id = "com.google.gms.google-services", version.ref = "services"}
+
 crashlytics = { id= "com.google.firebase.crashlytics", version.ref = "crashlytics"}
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
+gms-google-servives = {id = "com.google.gms.google-services", version.ref = "gmsGoogleServices"}

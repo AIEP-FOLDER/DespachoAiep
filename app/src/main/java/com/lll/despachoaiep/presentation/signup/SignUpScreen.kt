@@ -84,6 +84,9 @@ fun SignUpScreen(auth: FirebaseAuth) {
         )
         Spacer(Modifier.height(48.dp))
         Button(onClick = {
+
+            //auth.signInAnonymously()
+
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Registrado

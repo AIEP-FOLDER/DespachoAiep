@@ -1,6 +1,5 @@
 package com.lll.despachoaiep.presentation.initial
 
-import android.icu.text.CaseMap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,11 +17,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,15 +33,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lll.despachoaiep.R
+import com.lll.despachoaiep.presentation.signup.GoogleAuthClient
 import com.lll.despachoaiep.ui.theme.BackgroundButton
 import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.ui.theme.Gray
 import com.lll.despachoaiep.ui.theme.Green
 import com.lll.despachoaiep.ui.theme.ShapeButton
+import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun InitialScreen(navigateToLogin: () -> Unit = {}, navigateToSignUp: () -> Unit = {}) {
+fun InitialScreen(
+    navigateToLogin: () -> Unit = {},
+    navigateToSignUp: () -> Unit = {},
+    onGoogleLoginSuccess: () -> Unit = {}
+) {
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val googleClient = remember { GoogleAuthClient(context) }
+
+    LaunchedEffect(Unit) {
+        if (googleClient.isSignedIn()){
+            onGoogleLoginSuccess()
+        }
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,9 +87,14 @@ fun InitialScreen(navigateToLogin: () -> Unit = {}, navigateToSignUp: () -> Unit
         }
         Spacer(modifier = Modifier.height(8.dp))
         CustomButton(
-            Modifier.clickable {},
-            painterResource(id = R.drawable.google),
-            "Continue with Google "
+            modifier = Modifier, painterResource(id = R.drawable.google), "Continue with Google ", onClick = {
+                scope.launch {
+                    val success = googleClient.signIn()
+                    if(success){
+                        onGoogleLoginSuccess()
+                    }
+                }
+            }
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -84,14 +110,15 @@ fun InitialScreen(navigateToLogin: () -> Unit = {}, navigateToSignUp: () -> Unit
 }
 
 @Composable
-fun CustomButton(modifier: Modifier, painter: Painter, title: String) {
+fun CustomButton(modifier: Modifier, painter: Painter, title: String, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp)
             .padding(horizontal = 32.dp)
             .background(BackgroundButton)
-            .border(2.dp, ShapeButton, CircleShape),
+            .border(2.dp, ShapeButton, CircleShape)
+            .clickable { onClick() },
 
         contentAlignment = Alignment.CenterStart
     ) {
@@ -110,3 +137,6 @@ fun CustomButton(modifier: Modifier, painter: Painter, title: String) {
         )
     }
 }
+
+
+
