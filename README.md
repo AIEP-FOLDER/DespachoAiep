@@ -41,19 +41,34 @@ Aplicación móvil para la gestión de compras y cálculo automático de despach
 - **Firebase Authentication**
 - **Credential Manager API**
 - **Gradle + Modularización por feature**
+- **Profiler + Logcat para depuración**
 - **Compatibilidad con Android API 21+**
 
+
 ---
+
+## 🧾 Documentación y depuración
+
+- Método `convertirAGrados(radianes: Double)` para salida en consola (Logcat)
+- Validación de errores reales: `NumberFormatException`, `NullPointerException`, `IllegalStateException`
+- Uso de `Profiler` para análisis de CPU, memoria y eventos
+- Capturas disponibles en el informe académico
+
+---
+
 
 ## 📦 Instalación
 
 ```bash
-git clone https://github.com/tuusuario/DespachoAIEP.git
+git clone https://github.com/AIEP-FOLDER/DespachoAiep.git
 cd DespachoAIEP
 ./gradlew build
 ```
 ### ✉️ Contacto
 
 > Desarrollado por Matías Ignacio Pérez Nauto
+> 
 > 📍 Puerto Varas, Chile
-> 📧 contacto@tucorreo.co
+> 
+> 📧 contacto@mtsprz.org
+> 
