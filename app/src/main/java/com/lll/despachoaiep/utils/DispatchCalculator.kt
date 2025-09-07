@@ -1,6 +1,8 @@
 // java/com/lll/despachoaiep/utils/DispatchCalculator.kt
 package com.lll.despachoaiep.utils
 
+import android.util.Log
+
 
 fun calcularDespacho(montoCompra: Int, distanciaKm: Double): Int {
     return when {
@@ -36,4 +38,11 @@ fun validarYCalcularDespacho(
     val costo = calcularDespacho(monto, distancia)
     onSuccess(costo)
 
+}
+
+
+fun convertirAGrados(radianes: Double): Double {
+    val grados = Math.toDegrees(radianes)
+    Log.d("DespachoAIEP", "Radianes: $radianes → Grados: $grados")
+    return grados
 }

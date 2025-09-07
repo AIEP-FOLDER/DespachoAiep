@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.lll.despachoaiep.R
 import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.utils.calcularDespacho
+import com.lll.despachoaiep.utils.convertirAGrados
 import com.lll.despachoaiep.utils.validarYCalcularDespacho
 
 
@@ -199,6 +200,8 @@ fun HomeScreen(
                     onSuccess = {
                         showError = false
                         resultadoDespacho = it
+                        val radianesEjemplo = 1.57
+                        val grados = convertirAGrados(radianesEjemplo)
                     }
                 )
             },
