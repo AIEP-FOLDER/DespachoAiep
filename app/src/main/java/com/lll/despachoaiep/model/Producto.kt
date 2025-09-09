@@ -1,4 +1,4 @@
-package com.lll.despachoaiep.presentation.model
+package com.lll.despachoaiep.model
 
 data class Producto(
     val id: Int,

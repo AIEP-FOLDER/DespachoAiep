@@ -9,7 +9,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.lll.despachoaiep.presentation.home.HomeScreen
 import com.lll.despachoaiep.presentation.initial.InitialScreen
 import com.lll.despachoaiep.presentation.login.LoginScreen
-import com.lll.despachoaiep.presentation.pageHome.PageHomeScreen
 import com.lll.despachoaiep.presentation.signup.SignUpScreen
 
 @Composable
@@ -48,9 +47,7 @@ fun NavigationWrapper(
                 }
             )
         }
-        composable("PageHome"){
-            PageHomeScreen()
-        }
+
 
     }
 }

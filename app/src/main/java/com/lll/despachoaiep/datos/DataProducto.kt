@@ -1,6 +1,7 @@
 package com.lll.despachoaiep.datos
 
-import com.lll.despachoaiep.presentation.model.Producto
+import com.lll.despachoaiep.model.Producto
+
 
 val productos = listOf(
     Producto(

@@ -221,16 +221,27 @@ fun HomeScreen(
 
         Button(
             onClick = {
-                validarYCalcularDespacho(montoCompra, distanciaKm, onError = {
+                if (productosSeleccionados.isEmpty()) {
                     showError = true
-                    errorMessage = it
+                    errorMessage =
+                        "Debes seleccionar al menos un producto antes de calcular el despacho."
                     resultadoDespacho = null
-                }, onSuccess = {
-                    showError = false
-                    resultadoDespacho = it
-                    val radianesEjemplo = 1.57
-                    val grados = convertirAGrados(radianesEjemplo)
-                })
+                    return@Button
+                }
+
+
+                validarYCalcularDespacho(
+                    montoCompra,
+                    distanciaKm,
+                    onError = {
+                        showError = true
+                        errorMessage = it
+                        resultadoDespacho = null
+                    }, onSuccess = {
+                        showError = false
+                        resultadoDespacho = it
+
+                    })
             }, modifier = Modifier.fillMaxWidth()
         ) {
             Text("Calcular despacho")
