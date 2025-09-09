@@ -47,7 +47,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
 import com.lll.despachoaiep.datos.productos
+import com.lll.despachoaiep.presentation.components.BotonCalculoDespacho
+import com.lll.despachoaiep.presentation.components.FormularioEntrega
+import com.lll.despachoaiep.presentation.components.ViewMontosYDistancia
 import com.lll.despachoaiep.presentation.components.ViewNavbar
+import com.lll.despachoaiep.presentation.components.ViewResultados
 import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.utils.CatalogoProductosBurbuja
 import com.lll.despachoaiep.utils.calcularDistanciaHaversine
@@ -152,135 +156,45 @@ fun HomeScreen(
 
         )
 
-
-        TextField(
-            value = montoCompra,
-            onValueChange = {
-                // Solo actualiza si el texto es numérico
-                montoCompraInt = it.toIntOrNull() ?: montoCompraInt
-            },
-            label = { Text("Monto de compra") },
-            singleLine = true,
-            enabled = false,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.Gray,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.LightGray,
-                cursorColor = Color.White
-            )
+        ViewMontosYDistancia(
+            montoCompra = montoCompra,
+            onMontoChange = { montoCompraInt = it.toIntOrNull() ?: montoCompraInt },
+            distanciaKm = distanciaKm,
+            onDistanciaChange = { distanciaKm = it },
+            cargandoUbicacion = cargandoUbicacion
         )
 
 
 
+        FormularioEntrega(
+            direccion = direccion,
+            contacto = contacto,
+            incluyeCongelados = incluyeCongelados,
+            onDireccionChange = { direccion = it },
+            onContactoChange = { contacto = it },
+            onCongeladosChange = { incluyeCongelados = it }
+        )
 
 
-        Spacer(modifier = Modifier.height(12.dp))
-        if (cargandoUbicacion) {
-            Spacer(modifier = Modifier.height(12.dp))
-            CircularProgressIndicator(
-                modifier = Modifier.size(48.dp),
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-        }
-
-        TextField(
-            value = distanciaKm,
-            onValueChange = { distanciaKm = it },
-            label = { Text("Distancia (km)") },
-            singleLine = true,
-            enabled = false,
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.Gray,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.LightGray,
-                cursorColor = Color.White
-            )
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
-        ) {
-            Checkbox(
-                checked = incluyeCongelados, onCheckedChange = { incluyeCongelados = it })
-            Text("¿Incluye productos congelados?", color = Color.White)
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        TextField(
-            value = direccion,
-            onValueChange = { direccion = it },
-            label = { Text("Dirección de entrega") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.Gray,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.LightGray,
-                cursorColor = Color.White
-            )
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        TextField(
-            value = contacto,
-            onValueChange = { contacto = it },
-            label = { Text("Correo o teléfono") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.Gray,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.LightGray,
-                cursorColor = Color.White
-            )
-        )
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(
-            onClick = {
-                if (productosSeleccionados.isEmpty()) {
-                    showError = true
-                    errorMessage =
-                        "Debes seleccionar al menos un producto antes de calcular el despacho."
-                    resultadoDespacho = null
-                    return@Button
-                }
-                if (incluyeCongelados) {
-                    val temperatura = obtenerTemperaturaCamion()
-                    if (temperatura > -5.0) {
-                        showError = true
-                        errorMessage =
-                            "⚠️ Alerta: Temperatura del camión es $temperatura °C. No se puede despachar productos congelados."
-                        resultadoDespacho = null
-                        return@Button
-                    }
-                }
+        BotonCalculoDespacho(
+            productosSeleccionados = productosSeleccionados,
+            incluyeCongelados = incluyeCongelados,
+            montoCompra = montoCompra,
+            distanciaKm = distanciaKm,
+            montoCompraInt = montoCompraInt,
+            onError = {
+                showError = true
+                errorMessage = it
+                resultadoDespacho = null
+            },
+            onSuccess = {
+                showError = false
+                resultadoDespacho = it
+            }
 
-
-                validarYCalcularDespacho(
-                    montoCompra,
-                    distanciaKm,
-                    onError = {
-                        showError = true
-                        errorMessage = it
-                        resultadoDespacho = null
-                    }, onSuccess = {
-                        showError = false
-                        resultadoDespacho = it
-
-                    })
-            }, modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Calcular despacho")
-        }
+        )
         Spacer(modifier = Modifier.height(24.dp))
 
 
@@ -295,55 +209,7 @@ fun HomeScreen(
 
 
         resultadoDespacho?.let {
-            Spacer(modifier = Modifier.height(16.dp))
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-
-                    ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Text(
-                        text = "Resumen del despacho",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    HorizontalDivider(
-                        color = Color.Gray,
-                        thickness = 1.dp,
-                        modifier = Modifier.padding(
-                            bottom = 10.dp, top = 10.dp
-                        )
-                    )
-
-
-
-                    Text(
-                        text = "🧾 Costo de despacho: $${it}",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
-                    )
-
-                    Text(
-                        text = "💰 Total estimado: $${it + montoCompraInt}",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
-                    )
-
-                }
-
-
-            }
-            Spacer(modifier = Modifier.height(16.dp))
+            ViewResultados(resultadoDespacho = it, montoCompraInt = montoCompraInt)
 
 
         }
