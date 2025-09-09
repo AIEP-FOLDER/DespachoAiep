@@ -24,7 +24,7 @@ fun NavigationWrapper(
                 navigateToLogin = { navHostController.navigate("logIn") },
                 navigateToSignUp = { navHostController.navigate("signUp") },
                 onGoogleLoginSuccess = {
-                    navHostController.navigate("PageHome") {
+                    navHostController.navigate("home") {
                         popUpTo("initial") { inclusive = true }
                     }
                 }
