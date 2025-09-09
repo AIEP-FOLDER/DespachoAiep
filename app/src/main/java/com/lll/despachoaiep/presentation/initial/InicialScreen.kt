@@ -75,17 +75,7 @@ fun InitialScreen(
         Spacer(modifier = Modifier.weight(1f))
         Text("Despacho AIEP", color = Color.White, fontSize = 38.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.weight(1f))
-        Button(
-            onClick = { navigateToSignUp() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
-                .padding(horizontal = 32.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Green)
-        ) {
-            Text(text = "Sign up", color = Black)
-        }
-        Spacer(modifier = Modifier.height(8.dp))
+
         CustomButton(
             modifier = Modifier, painterResource(id = R.drawable.google), "Continue with Google ", onClick = {
                 scope.launch {
@@ -97,15 +87,8 @@ fun InitialScreen(
             }
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Log In",
-            color = Color.White,
-            modifier = Modifier
-                .padding(24.dp)
-                .clickable { navigateToLogin() },
-            fontWeight = FontWeight.Bold
-        )
         Spacer(modifier = Modifier.weight(1f))
+
     }
 }
 
