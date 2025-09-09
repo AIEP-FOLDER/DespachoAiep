@@ -35,7 +35,7 @@ import com.lll.despachoaiep.ui.theme.SelectedField
 import com.lll.despachoaiep.ui.theme.UnselectedField
 
 @Composable
-fun LoginScreen(auth: FirebaseAuth) {
+fun LoginScreen(auth: FirebaseAuth, navigateToHome: () -> Unit) {
     var email by remember {
         mutableStateOf("")
     }
@@ -87,6 +87,7 @@ fun LoginScreen(auth: FirebaseAuth) {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // navegar
+                    navigateToHome()
                     Log.i("Matias", "LOGIN [OK]")
                 } else {
                     // error
@@ -143,6 +144,7 @@ fun LoginPreview() {
         )
         Spacer(Modifier.height(48.dp))
         Text("Contraseña", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
+        // añadir ocultar contraseña, con el ojo para poder visualizarla
         TextField(
             value = password, onValueChange = { password = it }, modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.colors(

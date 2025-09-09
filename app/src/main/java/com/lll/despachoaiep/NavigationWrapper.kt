@@ -5,13 +5,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.lll.despachoaiep.presentation.home.HomeScreen
 import com.lll.despachoaiep.presentation.initial.InitialScreen
 import com.lll.despachoaiep.presentation.login.LoginScreen
+import com.lll.despachoaiep.presentation.pageHome.PageHomeScreen
 import com.lll.despachoaiep.presentation.signup.SignUpScreen
 
 @Composable
-fun NavigationWrapper(navHostController: NavHostController, auth: FirebaseAuth) {
+fun NavigationWrapper(
+    navHostController: NavHostController,
+    auth: FirebaseAuth
+) {
 
     NavHost(navController = navHostController, startDestination = "initial") {
         composable("initial") {
@@ -19,7 +24,7 @@ fun NavigationWrapper(navHostController: NavHostController, auth: FirebaseAuth) 
                 navigateToLogin = { navHostController.navigate("logIn") },
                 navigateToSignUp = { navHostController.navigate("signUp") },
                 onGoogleLoginSuccess = {
-                    navHostController.navigate("home") {
+                    navHostController.navigate("PageHome") {
                         popUpTo("initial") { inclusive = true }
                     }
                 }
@@ -28,7 +33,7 @@ fun NavigationWrapper(navHostController: NavHostController, auth: FirebaseAuth) 
 
         }
         composable("logIn") {
-            LoginScreen(auth)
+            LoginScreen(auth){ navHostController.navigate("PageHome") }
         }
         composable("signUp") {
             SignUpScreen(auth)
@@ -42,6 +47,9 @@ fun NavigationWrapper(navHostController: NavHostController, auth: FirebaseAuth) 
                     }
                 }
             )
+        }
+        composable("PageHome"){
+            PageHomeScreen()
         }
 
     }

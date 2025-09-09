@@ -14,7 +14,8 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.lll.despachoaiep.presentation.signup.GoogleAuthClient
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import com.lll.despachoaiep.ui.theme.DespachoAiepTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,9 +24,11 @@ class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
+
         enableEdgeToEdge()
 
 

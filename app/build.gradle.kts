@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -44,18 +43,22 @@ android {
 
 dependencies {
     implementation(platform(libs.firebase.bom))
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.firebase.crashlytics)
     //implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.realtime)
 
 
+
+    implementation(libs.coil)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
+
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
