@@ -24,7 +24,7 @@ fun ViewNavbar(nombreUsuario: String, auth: FirebaseAuth, onLogout: () -> Unit) 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 24.dp),
+            .padding(vertical = 24.dp, horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -46,7 +46,7 @@ fun ViewNavbar(nombreUsuario: String, auth: FirebaseAuth, onLogout: () -> Unit) 
             tint = Color.White,
             modifier = Modifier
                 .padding(vertical = 36.dp)
-                .size(32.dp)
+                .size(25.dp)
                 .clickable {
                     auth.signOut()
                     onLogout()
