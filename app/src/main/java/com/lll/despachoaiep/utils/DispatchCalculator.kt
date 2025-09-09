@@ -2,6 +2,7 @@
 package com.lll.despachoaiep.utils
 
 import android.util.Log
+import kotlin.math.*
 
 
 fun calcularDespacho(montoCompra: Int, distanciaKm: Double): Int {
@@ -13,7 +14,6 @@ fun calcularDespacho(montoCompra: Int, distanciaKm: Double): Int {
 }
 
 fun estaDentroDelRadio(distanciaKm: Double): Boolean = distanciaKm <= 20.0
-
 
 
 fun validarYCalcularDespacho(
@@ -45,4 +45,22 @@ fun convertirAGrados(radianes: Double): Double {
     val grados = Math.toDegrees(radianes)
     Log.d("DespachoAIEP", "Radianes: $radianes → Grados: $grados")
     return grados
+}
+
+
+fun calcularDistanciaHaversine(
+    lat1: Double, lon1: Double,
+    lat2: Double, lon2: Double
+): Double {
+    val R = 6371.0 // Radio de la Tierra en km
+    val dLat = Math.toRadians(lat2 - lat1)
+    val dLon = Math.toRadians(lon2 - lon1)
+
+    val a = sin(dLat / 2).pow(2) +
+            cos(Math.toRadians(lat1)) *
+            cos(Math.toRadians(lat2)) *
+            sin(dLon / 2).pow(2)
+
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return R * c
 }

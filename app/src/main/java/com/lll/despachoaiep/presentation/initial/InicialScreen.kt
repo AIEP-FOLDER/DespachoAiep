@@ -54,7 +54,7 @@ fun InitialScreen(
     val googleClient = remember { GoogleAuthClient(context) }
 
     LaunchedEffect(Unit) {
-        if (googleClient.isSignedIn()){
+        if (googleClient.isSignedIn()) {
             onGoogleLoginSuccess()
         }
     }
@@ -77,10 +77,13 @@ fun InitialScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         CustomButton(
-            modifier = Modifier, painterResource(id = R.drawable.google), "Continue with Google ", onClick = {
+            modifier = Modifier,
+            painterResource(id = R.drawable.google),
+            "Continue with Google ",
+            onClick = {
                 scope.launch {
                     val success = googleClient.signIn()
-                    if(success){
+                    if (success) {
                         onGoogleLoginSuccess()
                     }
                 }
