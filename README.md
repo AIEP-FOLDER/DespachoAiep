@@ -54,14 +54,16 @@ com.lll.despachoaiep
 ## 📸 Capturas de pantalla
 
 - Catálogo de productos
+
 ![Grabación 2025-09-10 132654.gif](evidencia/Grabaci%C3%B3n%202025-09-10%20132654.gif)
 
 - Cálculo de despacho con validación
 
 ![Grabación 2025-09-10 133546.gif](evidencia/Grabaci%C3%B3n%202025-09-10%20133546.gif)
 
-
 - Imagen de perfil en barra inferior
+
+![img.png](evidencia/img.png)
 
 ---
 
