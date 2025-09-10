@@ -7,6 +7,9 @@ para productos congelados y gestionar la sesión del usuario mediante autenticac
 
 ---
 
+[![Descargar APK](https://img.shields.io/badge/Descargar-APK-blue?style=for-the-badge&logo=android)](https://github.com/AIEP-FOLDER/DespachoAiep/releases/download/Released/DespachoApp_V001.apk)
+
+---
 ## 🚀 Características principales
 
 - 🔐 Autenticación con cuenta Gmail usando FirebaseAuth
