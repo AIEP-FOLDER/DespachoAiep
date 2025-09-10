@@ -42,6 +42,9 @@ android {
 }
 
 dependencies {
+
+
+
     implementation(platform(libs.firebase.bom))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.firebase.crashlytics)
@@ -75,4 +78,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //splashscreen
+    implementation(libs.androidx.core.splashscreen)
 }

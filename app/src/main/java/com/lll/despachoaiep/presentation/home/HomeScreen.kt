@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.BottomAppBar
 
 
 import androidx.compose.ui.text.input.KeyboardType
@@ -27,6 +29,8 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -40,11 +44,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.google.firebase.auth.FirebaseAuth
 import com.lll.despachoaiep.datos.productos
 import com.lll.despachoaiep.presentation.components.BotonCalculoDespacho
@@ -52,6 +58,8 @@ import com.lll.despachoaiep.presentation.components.FormularioEntrega
 import com.lll.despachoaiep.presentation.components.ViewMontosYDistancia
 import com.lll.despachoaiep.presentation.components.ViewNavbar
 import com.lll.despachoaiep.presentation.components.ViewResultados
+import com.lll.despachoaiep.presentation.components.bottomBar.BottomBarContainer
+import com.lll.despachoaiep.presentation.components.topBar.TopBarContainer
 import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.utils.CatalogoProductosBurbuja
 import com.lll.despachoaiep.utils.calcularDistanciaHaversine
@@ -76,6 +84,9 @@ fun HomeScreen(
     //----------------------
     val usuarioActual = FirebaseAuth.getInstance().currentUser
     val nombreUsuario = usuarioActual?.displayName ?: "Usuario"
+
+    // recuperar imagen
+    val imagenUsuario = usuarioActual?.photoUrl?.toString()
 
 
     var montoCompraInt by remember { mutableIntStateOf(0) }
@@ -124,101 +135,112 @@ fun HomeScreen(
     }
 
 
-
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(top = 0.dp, start = 10.dp, end = 10.dp, bottom = 16.dp)
-            .background(Black),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        ViewNavbar(
-            nombreUsuario = nombreUsuario,
-            auth = auth,
-            onLogout = onLogout,
-        )
-
-
-        CatalogoProductosBurbuja(
-            productos = productos,
-            productosSeleccionados = productosSeleccionados,
-            onToggleProducto = { producto ->
-                if (productosSeleccionados.contains(producto.id)) {
-                    productosSeleccionados.remove(producto.id)
-                    montoCompraInt -= producto.precio
-                } else {
-                    productosSeleccionados.add(producto.id)
-                    montoCompraInt += producto.precio
-                }
-            }
-
-        )
-
-        ViewMontosYDistancia(
-            montoCompra = montoCompra,
-            onMontoChange = { montoCompraInt = it.toIntOrNull() ?: montoCompraInt },
-            distanciaKm = distanciaKm,
-            onDistanciaChange = { distanciaKm = it },
-            cargandoUbicacion = cargandoUbicacion
-        )
-
-
-
-        FormularioEntrega(
-            direccion = direccion,
-            contacto = contacto,
-            incluyeCongelados = incluyeCongelados,
-            onDireccionChange = { direccion = it },
-            onContactoChange = { contacto = it },
-            onCongeladosChange = { incluyeCongelados = it }
-        )
-
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        BotonCalculoDespacho(
-            productosSeleccionados = productosSeleccionados,
-            incluyeCongelados = incluyeCongelados,
-            montoCompra = montoCompra,
-            distanciaKm = distanciaKm,
-            montoCompraInt = montoCompraInt,
-            onError = {
-                showError = true
-                errorMessage = it
-                resultadoDespacho = null
-            },
-            onSuccess = {
-                showError = false
-                resultadoDespacho = it
-            }
-
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-
-
-
-
-        if (showError) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = errorMessage, color = Color.Red, fontSize = 14.sp
+    Scaffold(
+        topBar = {
+            TopBarContainer(
+                nombreUsuario = nombreUsuario,
+                auth = auth,
+                onLogout = onLogout
             )
+
+        },
+        bottomBar = {
+            BottomBarContainer(
+                nombreUsuario = nombreUsuario,
+                imagenUsuario = imagenUsuario
+            )
+
+
         }
 
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(innerPadding)
+                .background(Black),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        resultadoDespacho?.let {
-            ViewResultados(resultadoDespacho = it, montoCompraInt = montoCompraInt)
+
+            CatalogoProductosBurbuja(
+                productos = productos,
+                productosSeleccionados = productosSeleccionados,
+                onToggleProducto = { producto ->
+                    if (productosSeleccionados.contains(producto.id)) {
+                        productosSeleccionados.remove(producto.id)
+                        montoCompraInt -= producto.precio
+                    } else {
+                        productosSeleccionados.add(producto.id)
+                        montoCompraInt += producto.precio
+                    }
+                }
+
+            )
+
+            ViewMontosYDistancia(
+                montoCompra = montoCompra,
+                onMontoChange = { montoCompraInt = it.toIntOrNull() ?: montoCompraInt },
+                distanciaKm = distanciaKm,
+                onDistanciaChange = { distanciaKm = it },
+                cargandoUbicacion = cargandoUbicacion
+            )
+
+
+
+            FormularioEntrega(
+                direccion = direccion,
+                contacto = contacto,
+                incluyeCongelados = incluyeCongelados,
+                onDireccionChange = { direccion = it },
+                onContactoChange = { contacto = it },
+                onCongeladosChange = { incluyeCongelados = it }
+            )
+
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            BotonCalculoDespacho(
+                productosSeleccionados = productosSeleccionados,
+                incluyeCongelados = incluyeCongelados,
+                montoCompra = montoCompra,
+                distanciaKm = distanciaKm,
+                montoCompraInt = montoCompraInt,
+                onError = {
+                    showError = true
+                    errorMessage = it
+                    resultadoDespacho = null
+                },
+                onSuccess = {
+                    showError = false
+                    resultadoDespacho = it
+                }
+
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+
+
+            if (showError) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = errorMessage, color = Color.Red, fontSize = 14.sp
+                )
+            }
+
+
+            resultadoDespacho?.let {
+                ViewResultados(resultadoDespacho = it, montoCompraInt = montoCompraInt)
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+            Text("Versión cliente: Oreo", color = Color.LightGray, fontSize = 12.sp)
+            Spacer(modifier = Modifier.weight(1f))
 
 
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-        Text("Versión cliente: Oreo", color = Color.LightGray, fontSize = 12.sp)
-        Spacer(modifier = Modifier.weight(1f))
-
-
     }
 
 

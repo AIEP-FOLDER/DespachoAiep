@@ -23,6 +23,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -38,6 +39,7 @@ class MainActivity : ComponentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScren = installSplashScreen()
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)

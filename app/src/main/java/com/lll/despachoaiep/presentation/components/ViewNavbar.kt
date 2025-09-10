@@ -24,15 +24,14 @@ fun ViewNavbar(nombreUsuario: String, auth: FirebaseAuth, onLogout: () -> Unit) 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 24.dp, horizontal = 24.dp),
+            .padding(vertical = 50.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Box(
             modifier = Modifier.weight(2f), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Bienvenido, $nombreUsuario",
+                text = "Bienvenido",
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -45,7 +44,7 @@ fun ViewNavbar(nombreUsuario: String, auth: FirebaseAuth, onLogout: () -> Unit) 
             contentDescription = "Cerrar session",
             tint = Color.White,
             modifier = Modifier
-                .padding(vertical = 36.dp)
+                .padding(vertical = 0.dp)
                 .size(25.dp)
                 .clickable {
                     auth.signOut()
