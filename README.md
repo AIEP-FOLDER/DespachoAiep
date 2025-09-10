@@ -74,7 +74,7 @@ https://github.com/AIEP-FOLDER/DespachoAiep/tree/aiep
 ~~~
 
 - Abre el proyecto en Android Studio (AGP 8.12.2)
-- 
+
 - Sincroniza Gradle y ejecuta en emulador Android Oreo
 
 - Asegúrate de tener configurado Firebase con tu propio google-services.json
