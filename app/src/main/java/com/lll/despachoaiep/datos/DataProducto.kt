@@ -21,6 +21,90 @@ val productos = listOf(
         "Pack de jugos naturales",
         7800,
         "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.freepik.com%2Fpremium-photo%2Fjuice-tetra-pack-mango-fruit-juice-packaging-template-brand-cardboard-pack-fresh-natural-juicy-drink_1029476-125046.jpg%3Fw%3D2000&f=1&nofb=1&ipt=c2ffa8a7fdfe05772b21c5c0e5c0b9edefccf506c0758be7f3e9939a9d02eb84"
-    )
+    ),
+    Producto(
+        4,
+        "1k Arroz Banquete",
+        2590,
+        "https://mayoristacontigo.cl/wp-content/uploads/1048.png"
+    ),
+    Producto(
+        4,
+        "Jabón Barra Dove Karite 90 g",
+        4590,
+        "https://mayoristacontigo.cl/wp-content/uploads/1638-300x300.jpg"
+    ),
+    Producto(
+        5,
+        "Arveja Minuto Verde 200 g",
+        2190,
+        "https://mayoristacontigo.cl/wp-content/uploads/2023/07/413-300x300.jpg"
+    ),
+    Producto(
+        6,
+        "Aceite Belmont Vegetal 250 cc",
+        1290,
+        "https://mayoristacontigo.cl/wp-content/uploads/2023/07/17-300x300.jpg"
+    ),
+    Producto(
+        7,
+        "Aceite Bonanza Vegetal 900 cc",
+        1590,
+        "https://mayoristacontigo.cl/wp-content/uploads/2023/07/623-300x300.jpg"
+    ),
+    Producto(
+        8,
+        "Yerba Aguantadora 500 g.",
+        3490,
+        "https://mayoristacontigo.cl/wp-content/uploads/2023/07/218-300x300.jpg"
+    ),
+    Producto(
+        9,
+        "Yerba Mate TARAGUI Citricos 500 g",
+        1290,
+        "https://mayoristacontigo.cl/wp-content/uploads/2023/07/365-300x300.jpg"
+    ),
+    Producto(
+        10,
+        "Yerba Mate Pipore Naranja 500 g.",
+        1990,
+        "https://mayoristacontigo.cl/wp-content/uploads/1358-283x300.jpg"
+    ),
+    Producto(
+        11,
+        "Yerba Mate Menta Jenjibre Verdeflor 500 g.",
+        5990,
+        "https://mayoristacontigo.cl/wp-content/uploads/1426-1.jpg"
+    ),
+    Producto(
+        12,
+        "Yerba Mate Menta Verdeflor 500 g.",
+        7990,
+        "https://mayoristacontigo.cl/wp-content/uploads/976.jpg"
+    ),
+    Producto(
+        13,
+        "Yerba Mate Naranja Verdeflor 500 g.",
+        3990,
+        "https://mayoristacontigo.cl/wp-content/uploads/1427-1.jpg"
+    ),
+    Producto(
+        14,
+        "Yerba Mate Peperina Verdeflor 500 g.",
+        9990,
+        "https://mayoristacontigo.cl/wp-content/uploads/1429-1.jpg"
+    ),
+    Producto(
+        15,
+        "Yerba Mate Pipore Naranja 500 g.",
+        2990,
+        "https://mayoristacontigo.cl/wp-content/uploads/1358-283x300.jpg"
+    ),
+    Producto(
+        16,
+        "Harina Cisne Imperial Sin Polvos 1 kg",
+        7990,
+        "https://mayoristacontigo.cl/wp-content/uploads/2023/07/232.jpg"
+    ),
 )
 

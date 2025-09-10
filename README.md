@@ -1,74 +1,106 @@
-# 📦 DespachoAIEP
+# 📦 DespachoAiep — App Móvil para Cálculo de Despacho Automatizado
 
-Aplicación móvil para la gestión de compras y cálculo automático de despacho en una distribuidora de alimentos. Incluye autenticación con Gmail, cálculo de tarifas según reglas de negocio, monitoreo de cadena de frío y compatibilidad con versiones Android Lollipop y Oreo.
+Aplicación Android desarrollada con Jetpack Compose y Firebase, orientada a automatizar el cálculo
+de despacho para una empresa distribuidora de productos alimenticios. La app permite seleccionar
+productos, calcular tarifas dinámicas según monto y distancia, validar condiciones de transporte
+para productos congelados y gestionar la sesión del usuario mediante autenticación con Gmail.
 
 ---
 
 ## 🚀 Características principales
 
-- 🛒 Registro de compras con cálculo automático de despacho
-- 📍 Validación de radio de cobertura (20 km)
-- 💰 Tarifas dinámicas según monto de compra
-- 🔐 Autenticación con cuentas Gmail (Firebase Auth)
-- ❄️ Monitoreo de temperatura para productos congelados
-- 📱 Compatibilidad con Android Lollipop (API 21) y Oreo (API 26)
+- 🔐 Autenticación con cuenta Gmail usando FirebaseAuth
+- 🛒 Catálogo interactivo de productos con acumulación de montos
+- 📍 Cálculo de distancia geográfica con fórmula de Haversine
+- ❄️ Validación de temperatura para productos congelados
+- 📦 Cálculo automático de tarifas de despacho según reglas de negocio
+- 🧩 Arquitectura modular con componentes reutilizables
+- 🌐 Instalación y compatibilidad con Android Ore
 
 ---
 
-## 📐 Reglas de negocio implementadas
+🧱 Tecnologías utilizadas
 
-| Monto de compra | Distancia | Tarifa de despacho |
-|-----------------|-----------|--------------------|
-| ≥ $50.000       | ≤ 20 km   | Gratuito           |
-| $25.000–$49.999 | Cualquier | $150/km            |
-| < $25.000       | Cualquier | $300/km            |
-| > 20 km         | Cualquier | No disponible      |
-
----
-
-## 🧪 Casos de uso
-
-- Compra de $55.000 a 18 km → despacho gratuito
-- Compra de $30.000 a 10 km → $1.500 de despacho
-- Compra de $20.000 a 5 km → $1.500 de despacho
-- Compra de $60.000 a 25 km → rechazo por distancia
+- Kotlin
+- Jetpack Compose
+- Firebase Auth
+- Firebase Crashlytics
+- Navigation Compose
+- Coil
+- Play Services Location
+- SplashScreen API
+- Material 3
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+## 📂 Estructura del proyecto
 
-- **Kotlin + Jetpack Compose**
-- **Firebase Authentication**
-- **Credential Manager API**
-- **Gradle + Modularización por feature**
-- **Profiler + Logcat para depuración**
-- **Compatibilidad con Android API 21+**
+~~~
+com.lll.despachoaiep
+│
+├── presentation
+│   ├── home
+│   ├── components
+│   ├── components.topBar
+│   ├── components.bottomBar
+│   ├── login.signup
+│   └── initial
+├── model
+├── datos
+├── ui.theme
+├── utils
+~~~
 
+## 📸 Capturas de pantalla
+
+- Catálogo de productos
+![Grabación 2025-09-10 132654.gif](evidencia/Grabaci%C3%B3n%202025-09-10%20132654.gif)
+
+- Cálculo de despacho con validación
+
+![Grabación 2025-09-10 133546.gif](evidencia/Grabaci%C3%B3n%202025-09-10%20133546.gif)
+
+
+- Imagen de perfil en barra inferior
 
 ---
 
-## 🧾 Documentación y depuración
+## Instalación
+- Clona el repositorio:
+~~~
+https://github.com/AIEP-FOLDER/DespachoAiep/tree/aiep
+~~~
 
-- Método `convertirAGrados(radianes: Double)` para salida en consola (Logcat)
-- Validación de errores reales: `NumberFormatException`, `NullPointerException`, `IllegalStateException`
-- Uso de `Profiler` para análisis de CPU, memoria y eventos
-- Capturas disponibles en el informe académico
+- Abre el proyecto en Android Studio (AGP 8.12.2)
+- 
+- Sincroniza Gradle y ejecuta en emulador Android Oreo
+
+- Asegúrate de tener configurado Firebase con tu propio google-services.json
 
 ---
 
+## 📄 Informe técnico
 
-## 📦 Instalación
+Este proyecto fue desarrollado como parte de una actividad evaluativa. El informe completo incluye:
 
-```bash
-git clone https://github.com/AIEP-FOLDER/DespachoAiep.git
-cd DespachoAIEP
-./gradlew build
-```
+- Introducción y contexto
+- Desarrollo técnico y decisiones justificadas
+- Evidencia de instalación
+- Código fuente modularizado
+- Conclusión reflexiva
+- Bibliografía en formato APA
+
+### Acceder al informe completo
+
+https://correoaiep-my.sharepoint.com/:w:/g/personal/matias_perezn_correoaiep_cl/EaTVFe3ts4RHpMe-5E3TsXMBNbCxhcgMHEUrGLcfJc-Xzg?e=qCi0F2
+
+---
+
 ### ✉️ Contacto
 
 > Desarrollado por Matías Ignacio Pérez Nauto
-> 
+>
 > 📍 Puerto Varas, Chile
-> 
+>
 > 📧 contacto@mtsprz.org
 > 
