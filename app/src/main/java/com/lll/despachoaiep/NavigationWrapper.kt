@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.lll.despachoaiep.presentation.home.HomeScreen
 import com.lll.despachoaiep.presentation.initial.InitialScreen
 import com.lll.despachoaiep.presentation.login.LoginScreen
@@ -32,10 +31,13 @@ fun NavigationWrapper(
 
         }
         composable("logIn") {
-            LoginScreen(auth){ navHostController.navigate("PageHome") }
+            LoginScreen(
+                auth = auth,
+                navController = navHostController,
+                navigateToHome = { navHostController.navigate("home") })
         }
         composable("signUp") {
-            SignUpScreen(auth)
+            SignUpScreen(auth = auth, navController = navHostController)
         }
         composable("home") {
             HomeScreen(
