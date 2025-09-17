@@ -36,10 +36,14 @@ import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.ui.theme.SelectedField
 import com.lll.despachoaiep.ui.theme.UnselectedField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.rememberCoroutineScope
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.lll.despachoaiep.presentation.components.PasswordInputField
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -57,10 +61,11 @@ fun LoginScreen(auth: FirebaseAuth, navController: NavHostController, navigateTo
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { padding ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(innerPadding)
                 .background(Black)
                 .padding(horizontal = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -103,20 +108,44 @@ fun LoginScreen(auth: FirebaseAuth, navController: NavHostController, navigateTo
 
             Spacer(Modifier.height(48.dp))
             Button(onClick = {
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // navegar
-                        navigateToHome()
-                        Log.i("Matias", "LOGIN [OK]")
-                    } else {
-                        // error
-                        Log.i("Matias", "LOGIN [KO]")
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { loginTask ->
+                        if (loginTask.isSuccessful) {
+                            navigateToHome()
+                            Log.i("Matias", "LOGIN [OK]")
+                        } else {
+                            val exception = loginTask.exception
+                            val errorMessage = when {
+                                exception is FirebaseAuthInvalidUserException &&
+                                        exception.message?.contains("There is no user record") == true -> {
+                                    "Este correo está vinculado a Google. Por favor inicia sesión con Google."
+                                }
 
+                                exception is FirebaseAuthInvalidCredentialsException -> {
+                                    "Error. Intenta nuevamente."
+                                }
+
+                                else -> {
+                                    "Error al iniciar sesión: ${exception?.message}"
+                                }
+                            }
+
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = errorMessage,
+                                    duration = SnackbarDuration.Long
+                                )
+
+                            }
+
+                            Log.e("Matias", "LOGIN [KO]: ${exception?.message}")
+                        }
                     }
-                }
             }) {
                 Text("Login")
             }
+
+
         }
     }
 }

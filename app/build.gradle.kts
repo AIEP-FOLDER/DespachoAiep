@@ -83,5 +83,4 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.androidx.material.icons.extended)
-
 }
