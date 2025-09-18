@@ -53,7 +53,7 @@ fun HomeNavHost(
         }
 
         composable(HomeDestination.Perfil.route) {
-            PerfilScreen()
+            PerfilScreen(auth = auth)
         }
 
     }

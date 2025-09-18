@@ -40,7 +40,7 @@ fun CatalogoProductosBurbuja(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 5.dp)
+            .padding(start = 16.dp)
     ) {
         Text(
             text = "Productos disponibles",

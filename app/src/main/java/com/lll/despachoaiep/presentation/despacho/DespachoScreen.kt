@@ -2,9 +2,11 @@ package com.lll.despachoaiep.presentation.despacho
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -94,26 +96,21 @@ fun DespachoScreen(
 
 
     LaunchedEffect(Unit) {
-        obtenerUbicacionActual(
-            context = context,
-            onSuccess = { location ->
-                val distancia = calcularDistanciaHaversine(
-                    lat1 = location.latitude,
-                    lon1 = location.longitude,
-                    // lat bodega y log bodega en plaza de armas
-                    lat2 = -41.317831, // Plaza de Armas Puerto Varas
-                    lon2 = -72.982737
-                )
-                // -41.317831, -72.982737
-                distanciaCalculadaKm = distancia
-                distanciaKm = "%.2f".format(distancia) // actualiza el TextField
-                cargandoUbicacion = false
-            },
-            onError = {
-                Log.e("Ubicación [onError]", it)
-                cargandoUbicacion = false
-            }
-        )
+        obtenerUbicacionActual(context = context, onSuccess = { location ->
+            val distancia = calcularDistanciaHaversine(
+                lat1 = location.latitude, lon1 = location.longitude,
+                // lat bodega y log bodega en plaza de armas
+                lat2 = -41.317831, // Plaza de Armas Puerto Varas
+                lon2 = -72.982737
+            )
+            // -41.317831, -72.982737
+            distanciaCalculadaKm = distancia
+            distanciaKm = "%.2f".format(distancia) // actualiza el TextField
+            cargandoUbicacion = false
+        }, onError = {
+            Log.e("Ubicación [onError]", it)
+            cargandoUbicacion = false
+        })
     }
 
 
@@ -125,6 +122,7 @@ fun DespachoScreen(
             .background(Black),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
 
         CatalogoProductosBurbuja(
             productos = productos,
@@ -140,67 +138,68 @@ fun DespachoScreen(
             }
 
         )
-
-        ViewMontosYDistancia(
-            montoCompra = montoCompra,
-            onMontoChange = { montoCompraInt = it.toIntOrNull() ?: montoCompraInt },
-            distanciaKm = distanciaKm,
-            onDistanciaChange = { distanciaKm = it },
-            cargandoUbicacion = cargandoUbicacion
-        )
-
-
-
-        FormularioEntrega(
-            direccion = direccion,
-            contacto = contacto,
-            incluyeCongelados = incluyeCongelados,
-            onDireccionChange = { direccion = it },
-            onContactoChange = { contacto = it },
-            onCongeladosChange = { incluyeCongelados = it }
-        )
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+            ViewMontosYDistancia(
+                montoCompra = montoCompra,
+                onMontoChange = { montoCompraInt = it.toIntOrNull() ?: montoCompraInt },
+                distanciaKm = distanciaKm,
+                onDistanciaChange = { distanciaKm = it },
+                cargandoUbicacion = cargandoUbicacion
+            )
 
 
-        Spacer(modifier = Modifier.height(24.dp))
 
-        BotonCalculoDespacho(
-            productosSeleccionados = productosSeleccionados,
-            incluyeCongelados = incluyeCongelados,
-            montoCompra = montoCompra,
-            distanciaKm = distanciaKm,
-            montoCompraInt = montoCompraInt,
-            onError = {
-                showError = true
-                errorMessage = it
-                resultadoDespacho = null
-            },
-            onSuccess = {
-                showError = false
-                resultadoDespacho = it
+            FormularioEntrega(
+                direccion = direccion,
+                contacto = contacto,
+                incluyeCongelados = incluyeCongelados,
+                onDireccionChange = { direccion = it },
+                onContactoChange = { contacto = it },
+                onCongeladosChange = { incluyeCongelados = it })
+
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            BotonCalculoDespacho(
+                productosSeleccionados = productosSeleccionados,
+                incluyeCongelados = incluyeCongelados,
+                montoCompra = montoCompra,
+                distanciaKm = distanciaKm,
+                montoCompraInt = montoCompraInt,
+                onError = {
+                    showError = true
+                    errorMessage = it
+                    resultadoDespacho = null
+                },
+                onSuccess = {
+                    showError = false
+                    resultadoDespacho = it
+                }
+
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+
+
+            if (showError) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = errorMessage, color = Color.Red, fontSize = 14.sp
+                )
             }
 
-        )
-        Spacer(modifier = Modifier.height(24.dp))
 
+            resultadoDespacho?.let {
+                ViewResultados(resultadoDespacho = it, montoCompraInt = montoCompraInt)
+            }
 
-
-
-        if (showError) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = errorMessage, color = Color.Red, fontSize = 14.sp
-            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text("Versión cliente: Oreo", color = Color.LightGray, fontSize = 12.sp)
+            Spacer(modifier = Modifier.weight(1f))
         }
-
-
-        resultadoDespacho?.let {
-            ViewResultados(resultadoDespacho = it, montoCompraInt = montoCompraInt)
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-        Text("Versión cliente: Oreo", color = Color.LightGray, fontSize = 12.sp)
-        Spacer(modifier = Modifier.weight(1f))
-
 
     }
 
