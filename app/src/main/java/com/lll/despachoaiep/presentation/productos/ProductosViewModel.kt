@@ -8,6 +8,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.database.getValue
@@ -20,53 +21,41 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 
 class ProductosViewModel : ViewModel() {
-    private val database = Firebase.database
+    //private val database = Firebase.database
+
     private val _productos = MutableStateFlow<List<Producto>>(emptyList())
     val productos: StateFlow<List<Producto>> = _productos
 
 
     init {
-        getProductos()
+        cargarProductosDesdeFirebase()
+
     }
 
-    private fun getProductos() {
-        viewModelScope.launch {
-            collectProductos().collect { snapshot ->
-                val lista = mutableListOf<Producto>()
-                for (productoSnapshot in snapshot.children) {
-                    val producto = productoSnapshot.getValue(Producto::class.java)
-                    producto?.let { lista.add(it) }
-                    Log.i("Matias", "Producto leído: ${productoSnapshot.key} → ${producto?.nombre}")
+    private fun cargarProductosDesdeFirebase() {
+        val ref = FirebaseDatabase.getInstance().getReference("productos_map")
 
+        ref.get().addOnSuccessListener { snapshot ->
+            val lista = mutableListOf<Producto>()
+
+            // Leer como lista
+            val productosList =
+                snapshot.getValue(object : GenericTypeIndicator<List<Producto?>>() {})
+                    ?: emptyList()
+
+            productosList.forEachIndexed { index, producto ->
+                if (producto != null) {
+                    lista.add(producto)
+                } else {
+                    Log.w("Firebase", "Elemento nulo en índice $index")
                 }
-                _productos.value = lista
-                Log.i("Matias", "Productos recibidos: ${lista.size}")
             }
 
+            _productos.value = lista
+        }.addOnFailureListener {
+            Log.e("Firebase", "Error al leer productos: ${it.message}")
         }
-
-
     }
 
-    private fun collectProductos(): Flow<DataSnapshot> = callbackFlow {
-        val ref = database.reference.child("productos")
 
-        val listener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                trySend(snapshot).isSuccess
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.i("Matias", "ERROR [getProductos]")
-                close(error.toException())
-            }
-
-        }
-        ref.addValueEventListener(listener)
-        awaitClose {
-            ref.removeEventListener(listener)
-        }
-
-
-    }
 }
