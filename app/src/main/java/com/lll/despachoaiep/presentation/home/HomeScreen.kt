@@ -14,10 +14,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.lll.despachoaiep.datos.productos
+import com.lll.despachoaiep.presentation.components.topBar.CarritoViewModel
 import com.lll.despachoaiep.presentation.components.topBar.TopBarContainer
 import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.utils.subirProductosIniciales
@@ -39,6 +41,7 @@ fun HomeScreen(
 
 
 
+    val carritoViewModel: CarritoViewModel = viewModel()
 
 
     Scaffold(
@@ -46,7 +49,8 @@ fun HomeScreen(
             TopBarContainer(
                 nombreUsuario = nombreUsuario,
                 auth = auth,
-                onLogout = onLogout
+                onLogout = onLogout,
+                carritoViewModel = carritoViewModel
             )
 
         },

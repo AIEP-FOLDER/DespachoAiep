@@ -17,6 +17,8 @@ import com.lll.despachoaiep.presentation.productos.ProductosScreen
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.lll.despachoaiep.presentation.components.topBar.CarritoViewModel
 
 sealed class HomeDestination(val route: String, val icon: ImageVector, val label: String) {
     object Productos : HomeDestination("productos", Icons.Default.ShoppingCart, "Productos")
@@ -37,6 +39,9 @@ fun HomeNavHost(
     onLogout: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val carritoViewModel: CarritoViewModel = viewModel()
+
+
     NavHost(
         navController = navController,
         startDestination = HomeDestination.Despacho.route,
@@ -45,15 +50,19 @@ fun HomeNavHost(
         composable(HomeDestination.Despacho.route) {
             DespachoScreen(
                 auth = auth,
-                onLogout = onLogout
+                onLogout = onLogout,
+                carritoViewModel = carritoViewModel
             )
         }
         composable(HomeDestination.Productos.route) {
-            ProductosScreen()
+            ProductosScreen(carritoViewModel = carritoViewModel)
         }
 
         composable(HomeDestination.Perfil.route) {
-            PerfilScreen(auth = auth)
+            PerfilScreen(
+                auth = auth,
+                onLogout = onLogout
+            )
         }
 
     }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -25,15 +26,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.lll.despachoaiep.datos.productos
 import com.lll.despachoaiep.model.UbicacionGps
 import com.lll.despachoaiep.presentation.components.BotonCalculoDespacho
 import com.lll.despachoaiep.presentation.components.FormularioEntrega
 import com.lll.despachoaiep.presentation.components.ViewMontosYDistancia
-import com.lll.despachoaiep.presentation.components.ViewResultados
+import com.lll.despachoaiep.presentation.components.ViewResultadosSheet
+import com.lll.despachoaiep.presentation.components.topBar.CarritoViewModel
 import com.lll.despachoaiep.presentation.home.HomeDestination
+import com.lll.despachoaiep.presentation.productos.ProductosViewModel
 import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.utils.CatalogoProductosBurbuja
 import com.lll.despachoaiep.utils.calcularDistanciaHaversine
@@ -42,7 +45,10 @@ import com.lll.despachoaiep.utils.obtenerUbicacionActual
 
 @Composable
 fun DespachoScreen(
-    auth: FirebaseAuth, onLogout: () -> Unit
+    auth: FirebaseAuth,
+    onLogout: () -> Unit,
+    carritoViewModel: CarritoViewModel,
+    viewModel: ProductosViewModel = viewModel()
 ) {
 
     // estado producto seleccionado/des
@@ -85,6 +91,11 @@ fun DespachoScreen(
     // navbootom
     val navController = rememberNavController()
     var selectedRoute by rememberSaveable { mutableStateOf(HomeDestination.Productos.route) }
+
+    // productos traidos de la base de datos
+    val productos by viewModel.productos.collectAsState()
+
+    var showResultadosSheet by remember { mutableStateOf(false) }
 
 
 
@@ -187,6 +198,7 @@ fun DespachoScreen(
                 onSuccess = {
                     showError = false
                     resultadoDespacho = it
+                    showResultadosSheet = true
                 }
 
             )
@@ -202,10 +214,13 @@ fun DespachoScreen(
                 )
             }
 
+            ViewResultadosSheet(
+                resultadoDespacho = resultadoDespacho ?: 0,
+                montoCompraInt = montoCompraInt,
+                showSheet = showResultadosSheet,
+                onDismiss = { showResultadosSheet = false }
+            )
 
-            resultadoDespacho?.let {
-                ViewResultados(resultadoDespacho = it, montoCompraInt = montoCompraInt)
-            }
 
             Spacer(modifier = Modifier.weight(1f))
             Text("Versión cliente: Oreo", color = Color.LightGray, fontSize = 12.sp)

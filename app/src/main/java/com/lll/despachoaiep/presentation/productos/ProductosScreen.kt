@@ -31,11 +31,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.lll.despachoaiep.model.Producto
+import com.lll.despachoaiep.presentation.components.topBar.CarritoViewModel
 
 
 @Composable
 fun ProductosScreen(
-    viewModel: ProductosViewModel = viewModel()
+    viewModel: ProductosViewModel = viewModel(),
+    carritoViewModel: CarritoViewModel,
 ) {
     val productos by viewModel.productos.collectAsState()
 
@@ -44,31 +46,23 @@ fun ProductosScreen(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
 
             items(productos) { producto ->
-                ProductoCard(producto)
+                ProductoCard(producto, onAgregar = {
+                    carritoViewModel.agregarProducto()
+                })
             }
         }
     }
 
 
-    // para subir los productos a firebase
-    /*
-    Button(
-        onClick = {
-            subirProductosIniciales()
-            Log.i("Matias", "Carga masiva ejecutada")
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text("Subir productos a Firebase")
-    }
-     */
+
 }
 
 
 @Composable
-fun ProductoCard(producto: Producto) {
+fun ProductoCard(
+    producto: Producto,
+    onAgregar: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -112,7 +106,7 @@ fun ProductoCard(producto: Producto) {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Button(
-                        onClick = {},
+                        onClick = onAgregar,
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary
@@ -132,3 +126,24 @@ fun ProductoCard(producto: Producto) {
         }
     }
 }
+
+
+
+
+
+
+
+// para subir los productos a firebase
+/*
+Button(
+    onClick = {
+        subirProductosIniciales()
+        Log.i("Matias", "Carga masiva ejecutada")
+    },
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp)
+) {
+    Text("Subir productos a Firebase")
+}
+ */

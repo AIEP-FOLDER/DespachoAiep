@@ -46,7 +46,7 @@ fun NavigationWrapper(
                     navHostController.navigate("initial") {
                         popUpTo("home") { inclusive = true }
                     }
-                }
+                },
             )
         }
 
