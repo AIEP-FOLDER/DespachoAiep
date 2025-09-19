@@ -24,7 +24,7 @@ fun ViewNavbar(nombreUsuario: String, auth: FirebaseAuth, onLogout: () -> Unit) 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 50.dp, horizontal = 16.dp),
+            .padding(vertical = 16.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

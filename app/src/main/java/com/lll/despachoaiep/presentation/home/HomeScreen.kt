@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,8 +17,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.lll.despachoaiep.datos.productos
 import com.lll.despachoaiep.presentation.components.topBar.TopBarContainer
 import com.lll.despachoaiep.ui.theme.Black
+import com.lll.despachoaiep.utils.subirProductosIniciales
 
 
 @Composable
@@ -33,6 +36,10 @@ fun HomeScreen(
 
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
+
+
+
+
 
     Scaffold(
         topBar = {
