@@ -7,7 +7,7 @@ para productos congelados y gestionar la sesión del usuario mediante autenticac
 
 ---
 
-[![Descargar APK](https://img.shields.io/badge/Descargar-APK-blue?style=for-the-badge&logo=android)](https://github.com/AIEP-FOLDER/DespachoAiep/releases/download/Released/DespachoApp_V001.apk)
+[![Descargar APK](https://img.shields.io/badge/Descargar-APK-blue?style=for-the-badge&logo=android)](https://github.com/AIEP-FOLDER/DespachoAiep/releases/download/Released/DespachoAiepV00011.apk)
 
 ---
 ## 🚀 Características principales
@@ -56,17 +56,30 @@ com.lll.despachoaiep
 
 ## 📸 Capturas de pantalla
 
+- Login
+
+![ev1](evidencia/Grabación%202025-09-19%20203020.gif)
+
 - Catálogo de productos
 
-![Grabación 2025-09-10 132654.gif](evidencia/Grabaci%C3%B3n%202025-09-10%20132654.gif)
+![ev1](evidencia/Grabación%202025-09-19%20203429.gif)
+
+![ev1](evidencia/Grabación%202025-09-19%20203544.gif)
 
 - Cálculo de despacho con validación
 
-![Grabación 2025-09-10 133546.gif](evidencia/Grabaci%C3%B3n%202025-09-10%20133546.gif)
 
-- Imagen de perfil en barra inferior
+![ev1](evidencia/Grabación%202025-09-23%20114627.gif)
 
-![img.png](evidencia/img.png)
+- Calcula la distancia desde la plaza de arma de Puerto Varas hasta el lugar donde se encuentra el usuario, usando GPS. Ademas guarda la ubicacion GPS en Firebase realtime database.
+
+![ev1](evidencia/Grabación%202025-09-19%20203723.gif)
+
+
+- Vista de Perfil (desarrollo...)
+
+![ev1](evidencia/Grabación%202025-09-23%20115130.gif)
+
 
 ---
 
@@ -178,10 +191,6 @@ LaunchedEffect(Unit) {
 }
 ~~~
 
----
-### Acceder al informe completo
-
-https://correoaiep-my.sharepoint.com/:w:/g/personal/matias_perezn_correoaiep_cl/EaTVFe3ts4RHpMe-5E3TsXMBNbCxhcgMHEUrGLcfJc-Xzg?e=qCi0F2
 
 ---
 

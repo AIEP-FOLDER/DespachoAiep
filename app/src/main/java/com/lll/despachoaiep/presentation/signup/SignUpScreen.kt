@@ -52,6 +52,7 @@ fun SignUpScreen(auth: FirebaseAuth, navController: NavHostController) {
     var password by remember {
         mutableStateOf("")
     }
+    var repeatPassword by remember { mutableStateOf("") }
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -97,16 +98,32 @@ fun SignUpScreen(auth: FirebaseAuth, navController: NavHostController) {
             )
             Spacer(Modifier.height(48.dp))
             Text("Contraseña", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
-
             PasswordInputField(
                 password = password,
                 onPasswordChange = { password = it }
             )
+            Spacer(Modifier.height(48.dp))
+            Text(
+                "Repetir contraseña",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 35.sp
+            )
+
+            PasswordInputField(
+                password = repeatPassword,
+                onPasswordChange = { repeatPassword = it }
+            )
 
             Spacer(Modifier.height(48.dp))
             Button(onClick = {
+                if (password != repeatPassword) {
+                    scope.launch {
+                        snackbarHostState.showSnackbar("Las contraseñas no coinciden")
+                    }
+                    return@Button
+                }
 
-                //auth.signInAnonymously()
 
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
