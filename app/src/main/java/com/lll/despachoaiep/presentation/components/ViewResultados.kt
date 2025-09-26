@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +33,8 @@ import com.lll.despachoaiep.model.EnvioDespacho
 import com.lll.despachoaiep.model.EstadoEntrega
 import com.lll.despachoaiep.model.TipoAnimacionLottie
 import com.lll.despachoaiep.model.UbicacionGps
+import com.lll.despachoaiep.ui.theme.Green
+import com.lll.despachoaiep.ui.theme.ShapeButton
 import com.lll.despachoaiep.utils.guardarEnvioCompleto
 import com.lll.despachoaiep.utils.guardarUbicacionEnFirebase
 import kotlinx.coroutines.launch
@@ -149,7 +152,7 @@ fun ViewResultadosSheet(
                                 productosSeleccionados = productosSeleccionados,
                                 costoDespacho = resultadoDespacho,
                                 totalEstimado = resultadoDespacho + montoCompraInt,
-                                estadoEntrega = estadoEntrega
+                                estadoEntrega = estadoEntrega.name
                             )
                             guardarUbicacionEnFirebase(ubicacionActual)
                             guardarEnvioCompleto(envio)
@@ -175,7 +178,11 @@ fun ViewResultadosSheet(
 
                         }
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Green,
+                        contentColor = ShapeButton
+                    )
                 ) {
                     Text("Enviar pedido")
                 }
