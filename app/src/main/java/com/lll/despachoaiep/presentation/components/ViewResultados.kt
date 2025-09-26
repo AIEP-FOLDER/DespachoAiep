@@ -1,5 +1,6 @@
 package com.lll.despachoaiep.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.lll.despachoaiep.model.EnvioDespacho
+import com.lll.despachoaiep.model.EstadoEntrega
+import com.lll.despachoaiep.model.TipoAnimacionLottie
+import com.lll.despachoaiep.model.UbicacionGps
+import com.lll.despachoaiep.utils.guardarEnvioCompleto
+import com.lll.despachoaiep.utils.guardarUbicacionEnFirebase
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,9 +41,15 @@ import kotlinx.coroutines.launch
 fun ViewResultadosSheet(
     resultadoDespacho: Int,
     montoCompraInt: Int,
+    direccionEntrega: String,
+    contactoEntrega: String,
+    ubicacionActual: UbicacionGps,
+    incluyeCongelados: Boolean,
+    productosSeleccionados: List<Int>,
+    estadoEntrega: EstadoEntrega,
     showSheet: Boolean,
-    onDismiss: () -> Unit
-
+    onDismiss: () -> Unit,
+    onAnimacionLottie: (TipoAnimacionLottie) -> Unit
 ) {
 
     val sheetState = rememberModalBottomSheetState()
@@ -55,7 +68,7 @@ fun ViewResultadosSheet(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Resumen del despacho | Simulación",
+                    text = "Resumen del despacho",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -64,6 +77,35 @@ fun ViewResultadosSheet(
                     thickness = 1.dp,
                     modifier = Modifier.padding(vertical = 10.dp)
                 )
+                ListItem(
+                    headlineContent = { Text("Dirección de envio") },
+                    supportingContent = { Text(direccionEntrega) },
+                    leadingContent = {
+                        Icon(
+                            Icons.Default.Receipt, contentDescription = null
+                        )
+                    }
+                )
+                ListItem(
+                    headlineContent = { Text("Numero de contacto") },
+                    supportingContent = { Text(contactoEntrega) },
+                    leadingContent = {
+                        Icon(
+                            Icons.Default.Receipt, contentDescription = null
+                        )
+                    }
+                )
+                if (incluyeCongelados) {
+                    ListItem(
+                        headlineContent = { Text("Incluye congelados") },
+                        supportingContent = { Text("Si") },
+                        leadingContent = {
+                            Icon(
+                                Icons.Default.Receipt, contentDescription = null
+                            )
+                        }
+                    )
+                }
                 ListItem(
                     headlineContent = { Text("Costo de despacho") },
                     supportingContent = { Text("$${resultadoDespacho}") },
@@ -86,6 +128,59 @@ fun ViewResultadosSheet(
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
+
+                        // primero quiero validar que tenga la ubicacion, nombre usuario y correo
+                        if (
+                            ubicacionActual.latitud != 0.0 &&
+                            ubicacionActual.longitud != 0.0 &&
+                            ubicacionActual.nombreUsuario.isNotBlank() &&
+                            ubicacionActual.correo.isNotBlank()
+                        ) {
+                            // aqui utilizo mi modelo "Envio despacho" para crear el objeto
+
+                            val envio = EnvioDespacho(
+                                nombreUsuario = ubicacionActual.nombreUsuario,
+                                correo = ubicacionActual.correo,
+                                direccionEntrega = direccionEntrega,
+                                contactoEntrega = contactoEntrega,
+                                latitud = ubicacionActual.latitud,
+                                longitud = ubicacionActual.longitud,
+                                incluyeCongelados = incluyeCongelados,
+                                productosSeleccionados = productosSeleccionados,
+                                costoDespacho = resultadoDespacho,
+                                totalEstimado = resultadoDespacho + montoCompraInt,
+                                estadoEntrega = estadoEntrega
+                            )
+                            guardarUbicacionEnFirebase(ubicacionActual)
+                            guardarEnvioCompleto(envio)
+
+                            // ✅ Cerrar el sheet después de guardar
+                            scope.launch {
+                                sheetState.hide()
+                            }.invokeOnCompletion {
+                                onDismiss()
+                                onAnimacionLottie(TipoAnimacionLottie.Confirmacion)
+                            }
+
+                        } else {
+                            scope.launch {
+                                sheetState.hide()
+                            }.invokeOnCompletion {
+                                onDismiss()
+                            }
+                            // Opcional: mostrar alerta visual
+                            Log.e("Despacho", "Ubicación no disponible. No se guardó.")
+                            onAnimacionLottie(TipoAnimacionLottie.Error)
+
+
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Enviar pedido")
+                }
+                Button(
+                    onClick = {
                         scope.launch {
                             sheetState.hide()
                         }.invokeOnCompletion {
@@ -96,6 +191,7 @@ fun ViewResultadosSheet(
                 ) {
                     Text("Cerrar")
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

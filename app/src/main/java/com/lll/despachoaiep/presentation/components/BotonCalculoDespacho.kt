@@ -15,6 +15,8 @@ fun BotonCalculoDespacho(
     montoCompra: String,
     distanciaKm: String,
     montoCompraInt: Int,
+    direccionDespacho: String,
+    contactoDespacho: String,
     onError: (String) -> Unit,
     onSuccess: (Int) -> Unit
 ) {
@@ -31,6 +33,15 @@ fun BotonCalculoDespacho(
                     onError("⚠️ Alerta: Temperatura del camión es $temperatura °C. No se puede despachar productos congelados.")
                     return@Button
                 }
+            }
+            // por ahora solo valido que los campos tengan algo
+            if (direccionDespacho.isEmpty()) {
+                onError("Debes ingresar una dirección de despacho.")
+                return@Button
+            }
+            if (contactoDespacho.isEmpty()) {
+                onError("Debes ingresar un contacto de despacho.")
+                return@Button
             }
 
             validarYCalcularDespacho(
