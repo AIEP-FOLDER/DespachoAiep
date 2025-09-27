@@ -85,6 +85,7 @@ fun DespachoScreen(
 
 
     var distanciaKm by remember { mutableStateOf("") }
+    // variable booleana para saber si incluye congelados
     var incluyeCongelados by remember { mutableStateOf(false) }
 
 

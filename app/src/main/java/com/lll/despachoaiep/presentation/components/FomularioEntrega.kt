@@ -33,6 +33,7 @@ fun FormularioEntrega(
             modifier = Modifier.fillMaxWidth()
         ) {
             Checkbox(
+                // aqui la variable cambia segun el check
                 checked = incluyeCongelados,
                 onCheckedChange = onCongeladosChange
             )

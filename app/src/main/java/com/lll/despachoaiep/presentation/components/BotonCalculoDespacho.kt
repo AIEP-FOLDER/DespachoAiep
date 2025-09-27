@@ -26,7 +26,7 @@ fun BotonCalculoDespacho(
                 onError("Debes seleccionar al menos un producto antes de calcular el despacho.")
                 return@Button
             }
-
+            // aqui evaluo si incluye congelados
             if (incluyeCongelados) {
                 val temperatura = obtenerTemperaturaCamion()
                 if (temperatura > -5.0) {
@@ -43,7 +43,7 @@ fun BotonCalculoDespacho(
                 onError("Debes ingresar un contacto de despacho.")
                 return@Button
             }
-
+            // envio el montoCompra a la funcion
             validarYCalcularDespacho(
                 montoCompra, distanciaKm, onError = onError, onSuccess = onSuccess
             )
