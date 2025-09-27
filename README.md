@@ -12,29 +12,30 @@ para productos congelados y gestionar la sesión del usuario mediante autenticac
 ---
 ## 🚀 Características principales
 
-- 🔐 Autenticación con cuenta Gmail usando FirebaseAuth
-- 🛒 Catálogo interactivo de productos con acumulación de montos
-- 📍 Cálculo de distancia geográfica con fórmula de Haversine
-- ❄️ Validación de temperatura para productos congelados
-- 📦 Cálculo automático de tarifas de despacho según reglas de negocio
-- 🧩 Arquitectura modular con componentes reutilizables
-- 🌐 Instalación y compatibilidad con Android Ore
+- 	🔐 Autenticación con cuenta Gmail usando FirebaseAuth
+- 	🛒 Catálogo interactivo de productos con acumulación de montos
+- 	📍 Cálculo de distancia geográfica con fórmula de Haversine
+- 	❄️ Validación de temperatura para productos congelados
+- 	📦 Cálculo automático de tarifas de despacho según reglas de negocio
+- 	✅ Validación previa de campos obligatorios antes de guardar datos sensibles
+- 	🔄 Cambio de estado de despacho desde “Reparto” a “Entregado”
+- 	🧩 Arquitectura modular con componentes reutilizables y trazables
+- 	🎨 Segmentación visual por estado usando SegmentedButton y enum 
+- 	🌐 Compatibilidad con Android Oreo y superio
 
 ---
 
 🧱 Tecnologías utilizadas
 
-- Kotlin
-- Jetpack Compose
-- Firebase Auth
-- Firebase Crashlytics
-- Navigation Compose
-- Coil
-- Play Services Location
-- SplashScreen API
-- Material 3
+- 	Kotlin + Jetpack Compose
+- 	Firebase Auth + Realtime Database + Crashlytics
+- 	Navigation Compose
+- 	Coil (carga de imágenes)
+- 	Lottie (animaciones visuales)
+- 	Play Services Location (GPS)
+- 	Material 3 + SplashScreen API
 
----
+--- 
 
 ## 📂 Estructura del proyecto
 
@@ -76,10 +77,9 @@ com.lll.despachoaiep
 ![ev1](evidencia/Grabación%202025-09-19%20203723.gif)
 
 
-- Vista de Perfil (desarrollo...)
+- Vista de Perfil
 
-![ev1](evidencia/Grabación%202025-09-23%20115130.gif)
-
+![ev1](evidencia/image.png)
 
 ---
 
@@ -101,12 +101,14 @@ https://github.com/AIEP-FOLDER/DespachoAiep/tree/aiep
 
 Este proyecto fue desarrollado como parte de una actividad evaluativa. El informe completo incluye:
 
-- Introducción y contexto
-- Desarrollo técnico y decisiones justificadas
-- Evidencia de instalación
-- Código fuente modularizado
-- Conclusión reflexiva
-- Bibliografía en formato APA
+- 	Introducción y contexto
+- 	Prototipo funcional y no funcional
+- 	Modelo Canvas del negocio
+- 	Desarrollo técnico y decisiones justificadas
+- 	Evidencia de instalación y funcionamiento
+- 	Código fuente modularizado
+- 	Conclusión reflexiva
+- 	Bibliografía en formato APA
 
 ---
 ### 📍Registro de Ubicación GPS en Firebase
