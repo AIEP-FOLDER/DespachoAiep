@@ -10,36 +10,50 @@ para productos congelados y gestionar la sesión del usuario mediante autenticac
 [![Descargar APK](https://img.shields.io/badge/Descargar-APK-blue?style=for-the-badge&logo=android)](https://github.com/AIEP-FOLDER/DespachoAiep/releases/download/Released/DespachoAiepV00011.apk)
 
 ---
-## 🚀 Características principales
 
-- 	🔐 Autenticación con cuenta Gmail usando FirebaseAuth
-- 	🛒 Catálogo interactivo de productos con acumulación de montos
-- 	📍 Cálculo de distancia geográfica con fórmula de Haversine
-- 	❄️ Validación de temperatura para productos congelados
-- 	📦 Cálculo automático de tarifas de despacho según reglas de negocio
-- 	✅ Validación previa de campos obligatorios antes de guardar datos sensibles
-- 	🔄 Cambio de estado de despacho desde “Reparto” a “Entregado”
-- 	🧩 Arquitectura modular con componentes reutilizables y trazables
-- 	🎨 Segmentación visual por estado usando SegmentedButton y enum 
-- 	🌐 Compatibilidad con Android Oreo y superio
+## 📑 Índice
+
+- [🚀 Características principales](#características-principales)
+- [🧱 Tecnologías utilizadas](#tecnologías-utilizadas)
+- [📂 Estructura del proyecto](#estructura-del-proyecto)
+- [📸 Capturas de pantalla](#capturas-de-pantalla)
+- [🖊️ Instalacion](#instalación)
+- [📄 Informe técnico](#informe-técnico)
+- [📍 Registro de Ubicación GPS en Firebase](#registro-de-ubicación-gps-en-firebase)
+- [✉️ Contacto](#contacto)
 
 ---
 
-🧱 Tecnologías utilizadas
+## Características principales
 
-- 	Kotlin + Jetpack Compose
-- 	Firebase Auth + Realtime Database + Crashlytics
-- 	Navigation Compose
-- 	Coil (carga de imágenes)
-- 	Lottie (animaciones visuales)
-- 	Play Services Location (GPS)
-- 	Material 3 + SplashScreen API
+-     🔐 Autenticación con cuenta Gmail usando FirebaseAuth
+-     🛒 Catálogo interactivo de productos con acumulación de montos
+-     📍 Cálculo de distancia geográfica con fórmula de Haversine
+-     ❄️ Validación de temperatura para productos congelados
+-     📦 Cálculo automático de tarifas de despacho según reglas de negocio
+-     ✅ Validación previa de campos obligatorios antes de guardar datos sensibles
+-     🔄 Cambio de estado de despacho desde “Reparto” a “Entregado”
+-     🧩 Arquitectura modular con componentes reutilizables y trazables
+-     🎨 Segmentación visual por estado usando SegmentedButton y enum
+-     🌐 Compatibilidad con Android Oreo y superio
 
---- 
+---
 
-## 📂 Estructura del proyecto
+## Tecnologías utilizadas
 
-~~~
+-     Kotlin + Jetpack Compose
+-     Firebase Auth + Realtime Database + Crashlytics
+-     Navigation Compose
+-     Coil (carga de imágenes)
+-     Lottie (animaciones visuales)
+-     Play Services Location (GPS)
+-     Material 3 + SplashScreen API
+
+---
+
+## Estructura del proyecto
+
+```
 com.lll.despachoaiep
 │
 ├── presentation
@@ -53,9 +67,9 @@ com.lll.despachoaiep
 ├── datos
 ├── ui.theme
 ├── utils
-~~~
+```
 
-## 📸 Capturas de pantalla
+## Capturas de pantalla
 
 - Login
 
@@ -69,13 +83,11 @@ com.lll.despachoaiep
 
 - Cálculo de despacho con validación
 
-
 ![ev1](evidencia/Grabación%202025-09-23%20114627.gif)
 
 - Calcula la distancia desde la plaza de arma de Puerto Varas hasta el lugar donde se encuentra el usuario, usando GPS. Ademas guarda la ubicacion GPS en Firebase realtime database.
 
 ![ev1](evidencia/Grabación%202025-09-19%20203723.gif)
-
 
 - Vista de Perfil
 
@@ -84,10 +96,12 @@ com.lll.despachoaiep
 ---
 
 ## Instalación
+
 - Clona el repositorio:
-~~~
+
+```
 https://github.com/AIEP-FOLDER/DespachoAiep/tree/aiep
-~~~
+```
 
 - Abre el proyecto en Android Studio (AGP 8.12.2)
 
@@ -97,26 +111,28 @@ https://github.com/AIEP-FOLDER/DespachoAiep/tree/aiep
 
 ---
 
-## 📄 Informe técnico
+## Informe técnico
 
 Este proyecto fue desarrollado como parte de una actividad evaluativa. El informe completo incluye:
 
-- 	Introducción y contexto
-- 	Prototipo funcional y no funcional
-- 	Modelo Canvas del negocio
-- 	Desarrollo técnico y decisiones justificadas
-- 	Evidencia de instalación y funcionamiento
-- 	Código fuente modularizado
-- 	Conclusión reflexiva
-- 	Bibliografía en formato APA
+-     Introducción y contexto
+-     Prototipo funcional y no funcional
+-     Modelo Canvas del negocio
+-     Desarrollo técnico y decisiones justificadas
+-     Evidencia de instalación y funcionamiento
+-     Código fuente modularizado
+-     Conclusión reflexiva
+-     Bibliografía en formato APA
 
 ---
-### 📍Registro de Ubicación GPS en Firebase
+
+### Registro de Ubicación GPS en Firebase
+
 Esta aplicación registra la ubicación GPS del dispositivo en tiempo real y la almacena en Firebase Realtime Database, junto con los datos del usuario autenticado. Esta funcionalidad cumple con los requisitos de trazabilidad geográfica definidos en la actividad
 
 ### Estructura del modelo "UbicacionGps"
 
-~~~kotlin
+```kotlin
 data class UbicacionGps(
     val latitud: Double = 0.0,
     val longitud: Double = 0.0,
@@ -124,25 +140,25 @@ data class UbicacionGps(
     val nombreUsuario: String = "",
     val correo: String = ""
 )
-~~~
+```
 
 ### Escritura en firebase
 
 Cada ubicación se guarda bajo el nodo "ubicaciones/{uid}/{registro}" utilizando una clave única generada por "push()":
 
-~~~kotlin
+```kotlin
 fun guardarUbicacionEnFirebase(ubicacion: UbicacionGps) {
     val ref = FirebaseDatabase.getInstance().getReference("ubicaciones")
     val uid = FirebaseAuth.getInstance().currentUser?.uid ?: "anonimo"
     ref.child(uid).push().setValue(ubicacion)
 }
-~~~
+```
 
 ### Captura de ubicacion en "DespachoScreen.kt"
 
 La ubicación se obtiene mediante GPS y se calcula la distancia hasta la Plaza de Armas de Puerto Varas. Luego, se guarda en Firebase junto con el nombre y correo del usuario:
 
-~~~kotlin
+```kotlin
 LaunchedEffect(Unit) {
     obtenerUbicacionActual(
         context = context,
@@ -175,11 +191,11 @@ LaunchedEffect(Unit) {
         }
     )
 }
-~~~
+```
 
 ### Ejemplo de estructura en firebase
 
-~~~json
+```json
 "ubicaciones": {
   "uid123": {
     "-NabcXYZ": {
@@ -191,16 +207,14 @@ LaunchedEffect(Unit) {
     }
   }
 }
-~~~
-
+```
 
 ---
 
-### ✉️ Contacto
+## Contacto
 
 > Desarrollado por Matías Ignacio Pérez Nauto
 >
 > 📍 Puerto Varas, Chile
 >
 > 📧 contacto@mtsprz.org
-> 
