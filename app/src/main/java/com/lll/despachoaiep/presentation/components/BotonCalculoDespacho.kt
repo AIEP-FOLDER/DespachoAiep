@@ -1,5 +1,6 @@
 package com.lll.despachoaiep.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -18,7 +19,8 @@ fun BotonCalculoDespacho(
     direccionDespacho: String,
     contactoDespacho: String,
     onError: (String) -> Unit,
-    onSuccess: (Int) -> Unit
+    onSuccess: (Int) -> Unit,
+    temperaturaCamion: Double
 ) {
     Button(
         onClick = {
@@ -28,11 +30,20 @@ fun BotonCalculoDespacho(
             }
             // aqui evaluo si incluye congelados
             if (incluyeCongelados) {
-                val temperatura = obtenerTemperaturaCamion()
-                if (temperatura > -5.0) {
+                val temperatura = temperaturaCamion
+                Log.d("TEMPERATURA", temperatura.toString())
+
+                // seteo mi rango de temperatura
+                val rangoMinimo = -18.0
+                val rangoMaximo = -10.0
+
+                val temperaturaValida = temperatura in rangoMinimo..rangoMaximo
+
+                if (!temperaturaValida) {
                     onError("⚠️ Alerta: Temperatura del camión es $temperatura °C. No se puede despachar productos congelados.")
                     return@Button
                 }
+
             }
             // por ahora solo valido que los campos tengan algo
             if (direccionDespacho.isEmpty()) {

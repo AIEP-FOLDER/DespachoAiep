@@ -2,7 +2,6 @@ package com.lll.despachoaiep.presentation.components
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -16,8 +15,10 @@ fun ViewMontosYDistancia(
     onMontoChange: (String) -> Unit,
     distanciaKm: String,
     onDistanciaChange: (String) -> Unit,
-    cargandoUbicacion: Boolean
+    cargandoUbicacion: Boolean,
+    temperaturaCamion: Double
 ) {
+    // monto de compra
     TextField(
         value = montoCompra,
         onValueChange = {
@@ -41,6 +42,7 @@ fun ViewMontosYDistancia(
 
     Spacer(modifier = Modifier.height(12.dp))
 
+    // ubicacion / distancia
     if (cargandoUbicacion) {
         Spacer(modifier = Modifier.height(12.dp))
         CircularProgressIndicator(
@@ -48,12 +50,33 @@ fun ViewMontosYDistancia(
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(12.dp))
+    } else {
+        TextField(
+            value = distanciaKm,
+            onValueChange = onDistanciaChange,
+            label = { Text("Distancia (km)") },
+            singleLine = true,
+            enabled = false,
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.DarkGray,
+                unfocusedContainerColor = Color.Gray,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.LightGray,
+                cursorColor = Color.White
+            )
+        )
     }
 
+
+    Spacer(modifier = Modifier.height(12.dp))
+    BarraTemperatura(temperaturaCamion)
+    Spacer(modifier = Modifier.height(12.dp))
+    // temperatura del camion
     TextField(
-        value = distanciaKm,
-        onValueChange = onDistanciaChange,
-        label = { Text("Distancia (km)") },
+        value = temperaturaCamion.toString(),
+        onValueChange = {},
+        label = { Text("Temperatura (°C)") },
         singleLine = true,
         enabled = false,
         modifier = Modifier.fillMaxWidth(),
@@ -65,6 +88,9 @@ fun ViewMontosYDistancia(
             cursorColor = Color.White
         )
     )
-
     Spacer(modifier = Modifier.height(12.dp))
 }
+
+
+
+
