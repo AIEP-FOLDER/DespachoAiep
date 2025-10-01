@@ -1,5 +1,6 @@
 package com.lll.despachoaiep.presentation.despacho
 
+
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,7 +20,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.lll.despachoaiep.datos.FirebaseTemperaturaDataSource
 import com.lll.despachoaiep.model.EstadoEntrega
@@ -39,7 +38,6 @@ import com.lll.despachoaiep.presentation.components.FormularioEntrega
 import com.lll.despachoaiep.presentation.components.ViewMontosYDistancia
 import com.lll.despachoaiep.presentation.components.ViewResultadosSheet
 import com.lll.despachoaiep.presentation.components.topBar.CarritoViewModel
-import com.lll.despachoaiep.presentation.home.HomeDestination
 import com.lll.despachoaiep.presentation.productos.ProductosViewModel
 import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.utils.AnimacionLottiePantallaCompleta
@@ -48,7 +46,13 @@ import com.lll.despachoaiep.utils.calcularDistanciaHaversine
 import com.lll.despachoaiep.utils.obtenerUbicacionActual
 import kotlinx.coroutines.delay
 
-
+import android.content.Context
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
+import com.lll.despachoaiep.utils.reproducirSonidoError
+import com.lll.despachoaiep.utils.vibrar
 
 
 @Composable
@@ -69,9 +73,6 @@ fun DespachoScreen(
     //----------------------
     val usuarioActual = FirebaseAuth.getInstance().currentUser
     val nombreUsuario = usuarioActual?.displayName ?: "Usuario"
-
-    // recuperar imagen
-    val imagenUsuario = usuarioActual?.photoUrl?.toString()
 
 
     var montoCompraInt by remember { mutableIntStateOf(0) }
@@ -96,9 +97,6 @@ fun DespachoScreen(
     val scrollState = rememberScrollState()
     var cargandoUbicacion by remember { mutableStateOf(true) }
 
-    // navbootom
-    val navController = rememberNavController()
-    var selectedRoute by rememberSaveable { mutableStateOf(HomeDestination.Productos.route) }
 
     // productos traidos de la base de datos
     val productos by viewModel.productos.collectAsState()
@@ -113,7 +111,6 @@ fun DespachoScreen(
 
     // estado de animacion lottie
     var mostrarAnimacionConfirmacion by remember { mutableStateOf(false) }
-    var mostrarAnimacionError by remember { mutableStateOf(false) }
     var tipoAnimacionLottie by remember { mutableStateOf(TipoAnimacionLottie.Ninguna) }
 
     /*
@@ -168,7 +165,6 @@ fun DespachoScreen(
     }
 
     // obtener la temperatura del camion siempre actualizada
-
     LaunchedEffect(Unit) {
         fuenteTemperatura.obtenerUltimaLectura { lectura ->
             temperaturaCamion.value = lectura?.valorCelsius
@@ -238,6 +234,8 @@ fun DespachoScreen(
                     distanciaKm = distanciaKm,
                     montoCompraInt = montoCompraInt,
                     onError = {
+                        vibrar(context)
+                        reproducirSonidoError(context)
                         showError = true
                         errorMessage = it
                         resultadoDespacho = null

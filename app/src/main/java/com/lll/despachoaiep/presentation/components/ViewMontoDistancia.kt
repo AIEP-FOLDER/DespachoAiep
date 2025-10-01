@@ -3,6 +3,7 @@ package com.lll.despachoaiep.presentation.components
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,6 +19,11 @@ fun ViewMontosYDistancia(
     cargandoUbicacion: Boolean,
     temperaturaCamion: Double
 ) {
+
+
+
+
+
     // monto de compra
     TextField(
         value = montoCompra,
@@ -31,13 +37,8 @@ fun ViewMontosYDistancia(
             keyboardType = KeyboardType.Number
         ),
         modifier = Modifier.fillMaxWidth(),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.DarkGray,
-            unfocusedContainerColor = Color.Gray,
-            focusedLabelColor = Color.White,
-            unfocusedLabelColor = Color.LightGray,
-            cursorColor = Color.White
-        )
+        shape = RoundedCornerShape(12.dp),
+        colors = textFieldColorsElegantes()
     )
 
     Spacer(modifier = Modifier.height(12.dp))
@@ -58,18 +59,15 @@ fun ViewMontosYDistancia(
             singleLine = true,
             enabled = false,
             modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.Gray,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.LightGray,
-                cursorColor = Color.White
-            )
+            shape = RoundedCornerShape(12.dp),
+            colors = textFieldColorsElegantes()
+
         )
     }
 
 
     Spacer(modifier = Modifier.height(12.dp))
+    // barra para visualizar la temperatura
     BarraTemperatura(temperaturaCamion)
     Spacer(modifier = Modifier.height(12.dp))
     // temperatura del camion
@@ -80,13 +78,8 @@ fun ViewMontosYDistancia(
         singleLine = true,
         enabled = false,
         modifier = Modifier.fillMaxWidth(),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.DarkGray,
-            unfocusedContainerColor = Color.Gray,
-            focusedLabelColor = Color.White,
-            unfocusedLabelColor = Color.LightGray,
-            cursorColor = Color.White
-        )
+        shape = RoundedCornerShape(12.dp),
+        colors = textFieldColorsElegantes()
     )
     Spacer(modifier = Modifier.height(12.dp))
 }

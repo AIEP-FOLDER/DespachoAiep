@@ -24,19 +24,13 @@ import androidx.compose.ui.unit.dp
 fun BarraTemperatura(temperatura: Double) {
     val minTemp = -40.0
     val maxTemp = 125.0
-
     val porcentaje = ((temperatura - minTemp) / (maxTemp - minTemp)).coerceIn(0.0, 1.0)
-
     val colorTemperatura = when {
         temperatura < 0 -> Color.Cyan
         temperatura in 0.0..5.0 -> Color.Blue
         temperatura in 6.0..25.0 -> Color.Green
         else -> Color.Red
     }
-
-
-
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,7 +45,6 @@ fun BarraTemperatura(temperatura: Double) {
                 .size(35.dp)
                 .padding(start = 8.dp)
         )
-
         Box(
             modifier = Modifier
                 .weight(1f) // ocupa el resto del espacio
@@ -59,8 +52,6 @@ fun BarraTemperatura(temperatura: Double) {
                 .clip(RoundedCornerShape(12.dp))
                 .background(Color.Gray.copy(alpha = 0.2f))
         ) {
-
-
             // Barra de temperatura actual
             Box(
                 modifier = Modifier
@@ -69,9 +60,6 @@ fun BarraTemperatura(temperatura: Double) {
                     .clip(RoundedCornerShape(12.dp))
                     .background(colorTemperatura)
             )
-
         }
     }
-
-
 }

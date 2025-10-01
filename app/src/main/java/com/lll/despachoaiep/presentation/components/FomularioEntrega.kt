@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
@@ -48,13 +49,8 @@ fun FormularioEntrega(
             label = { Text("Dirección de entrega") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.Gray,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.LightGray,
-                cursorColor = Color.White
-            )
+            shape = RoundedCornerShape(12.dp),
+            colors = textFieldColorsElegantes()
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -70,13 +66,8 @@ fun FormularioEntrega(
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.DarkGray,
-                unfocusedContainerColor = Color.Gray,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.LightGray,
-                cursorColor = Color.White
-            )
+            shape = RoundedCornerShape(12.dp),
+            colors = textFieldColorsElegantes()
         )
     }
 }
