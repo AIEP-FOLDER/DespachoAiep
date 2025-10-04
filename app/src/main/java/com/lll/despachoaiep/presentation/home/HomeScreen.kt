@@ -48,7 +48,7 @@ fun HomeScreen(
 
     //-----------------------------------------
     // DETECTAR EL ROL DEL USUARIO REGISTRADO
-    var rolUsuario = rememberRolUsuario()
+    val rolUsuario = rememberRolUsuario()
     //-----------------------------------------
 
 

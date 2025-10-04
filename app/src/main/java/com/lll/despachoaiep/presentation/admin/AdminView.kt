@@ -46,7 +46,7 @@ fun PantallaAdmin(auth: FirebaseAuth) {
     val scope = rememberCoroutineScope()
 
 
-    // obtener temperatur min y max 
+    // obtener temperatur min y max
     LaunchedEffect(Unit) {
         try {
             obtenerRangosTemperatura { min, max ->
