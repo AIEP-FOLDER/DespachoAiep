@@ -39,8 +39,6 @@ fun HomeScreen(
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
-
-
     val carritoViewModel: CarritoViewModel = viewModel()
 
 

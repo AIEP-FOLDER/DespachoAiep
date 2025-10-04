@@ -39,7 +39,7 @@ import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.ui.theme.Gray
 import com.lll.despachoaiep.ui.theme.Green
 import com.lll.despachoaiep.ui.theme.ShapeButton
-import kotlinx.coroutines.launch
+import com.lll.despachoaiep.utils.manejarLoginRegistroRealtimeDatabase
 
 @Preview
 @Composable
@@ -93,14 +93,7 @@ fun InitialScreen(
             modifier = Modifier,
             painterResource(id = R.drawable.google),
             "Continue with Google",
-            onClick = {
-                scope.launch {
-                    val success = googleClient.signIn()
-                    if (success) {
-                        onGoogleLoginSuccess()
-                    }
-                }
-            }
+            onClick = { manejarLoginRegistroRealtimeDatabase(context, googleClient, onGoogleLoginSuccess) }
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -146,6 +139,8 @@ fun CustomButton(modifier: Modifier, painter: Painter, title: String, onClick: (
         )
     }
 }
+
+
 
 
 

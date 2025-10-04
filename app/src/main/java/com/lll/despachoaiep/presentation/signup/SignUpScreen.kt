@@ -40,7 +40,9 @@ import com.lll.despachoaiep.ui.theme.Black
 import com.lll.despachoaiep.ui.theme.SelectedField
 import com.lll.despachoaiep.ui.theme.UnselectedField
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.database.FirebaseDatabase
 import com.lll.despachoaiep.presentation.components.PasswordInputField
+import com.lll.despachoaiep.utils.manejarRegistroConCorreo
 import kotlinx.coroutines.launch
 
 @Composable
@@ -123,44 +125,11 @@ fun SignUpScreen(auth: FirebaseAuth, navController: NavHostController) {
                     }
                     return@Button
                 }
+                /*
+                Logica para registrar con rol
+                */
+                manejarRegistroConCorreo(auth, email, password, navController, scope, snackbarHostState)
 
-
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // Registrado
-                        Log.i("Matias", "Registro [OK]")
-                        navController.navigate("logIn") {
-                            popUpTo("signUp") { inclusive = true }
-                        }
-
-                    } else {
-                        val exception = task.exception
-                        val errorMessage = when (exception) {
-                            is FirebaseAuthUserCollisionException -> {
-                                scope.launch {
-                                    snackbarHostState.showSnackbar("Este correo ya está registrado. Redirigiendo al login...")
-                                }
-                                navController.navigate("logIn") {
-                                    popUpTo("signUp") { inclusive = true }
-                                }
-                                null // ya redirigimos
-                            }
-
-                            else -> {
-                                scope.launch {
-                                    snackbarHostState.showSnackbar("Error al registrar: ${exception?.message}")
-                                }
-                                null
-                            }
-                        }
-
-
-                        // error
-                        Log.i("Matias", "Registro [KO]")
-
-
-                    }
-                }
             }) {
                 Text("Sign Up")
             }

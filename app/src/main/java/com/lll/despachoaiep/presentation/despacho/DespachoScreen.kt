@@ -66,7 +66,6 @@ fun DespachoScreen(
     // estado producto seleccionado/des
     val productosSeleccionados = remember { mutableStateListOf<Int>() } // guarda los IDs
 
-
     // estado de distacia
     val context = LocalContext.current
 
@@ -74,15 +73,12 @@ fun DespachoScreen(
     val usuarioActual = FirebaseAuth.getInstance().currentUser
     val nombreUsuario = usuarioActual?.displayName ?: "Usuario"
 
-
     var montoCompraInt by remember { mutableIntStateOf(0) }
     val montoCompra = montoCompraInt.toString()
-
 
     var distanciaKm by remember { mutableStateOf("") }
     // variable booleana para saber si incluye congelados
     var incluyeCongelados by remember { mutableStateOf(false) }
-
 
     var direccion by remember { mutableStateOf("") }
     var contacto by remember { mutableStateOf("") }
@@ -93,10 +89,8 @@ fun DespachoScreen(
     var showError by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
 
-
     val scrollState = rememberScrollState()
     var cargandoUbicacion by remember { mutableStateOf(true) }
-
 
     // productos traidos de la base de datos
     val productos by viewModel.productos.collectAsState()
@@ -107,7 +101,6 @@ fun DespachoScreen(
     var ubicacionActual by remember { mutableStateOf<UbicacionGps?>(null) }
 
     var estadoEntrega by remember { mutableStateOf(EstadoEntrega.Reparto) }
-
 
     // estado de animacion lottie
     var mostrarAnimacionConfirmacion by remember { mutableStateOf(false) }
@@ -139,7 +132,7 @@ fun DespachoScreen(
             val correo = usuario?.email ?: "Sin correo"
 
 
-            // Guardar en Firebase
+            // Crear el objeto
             ubicacionActual = UbicacionGps(
                 latitud = location.latitude,
                 longitud = location.longitude,
@@ -171,10 +164,7 @@ fun DespachoScreen(
         }
     }
 
-
     Box(modifier = Modifier.fillMaxSize()) {
-
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -182,8 +172,6 @@ fun DespachoScreen(
                 .background(Black),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-
             CatalogoProductosBurbuja(
                 productos = productos,
                 productosSeleccionados = productosSeleccionados,
@@ -202,7 +190,6 @@ fun DespachoScreen(
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
 
-
                 ViewMontosYDistancia(
                     montoCompra = montoCompra,
                     onMontoChange = { montoCompraInt = it.toIntOrNull() ?: montoCompraInt },
@@ -212,8 +199,6 @@ fun DespachoScreen(
                     temperaturaCamion = temperaturaCamion.value ?: 0.0
                 )
 
-
-
                 FormularioEntrega(
                     direccion = direccion,
                     contacto = contacto,
@@ -222,7 +207,6 @@ fun DespachoScreen(
                     onContactoChange = { contacto = it },
                     onCongeladosChange = { incluyeCongelados = it }
                 )
-
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -250,9 +234,6 @@ fun DespachoScreen(
                 )
                 Spacer(modifier = Modifier.height(24.dp))
 
-
-
-
                 if (showError) {
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
@@ -274,7 +255,6 @@ fun DespachoScreen(
                     onAnimacionLottie = { tipoAnimacionLottie = it }
                 )
 
-
                 Spacer(modifier = Modifier.weight(1f))
                 Text("Versión cliente: Oreo", color = Color.LightGray, fontSize = 12.sp)
                 Spacer(modifier = Modifier.weight(1f))
@@ -287,9 +267,7 @@ fun DespachoScreen(
             onOcultar = { tipoAnimacionLottie = TipoAnimacionLottie.Ninguna }
         )
 
-
     }
-
 
 }
 

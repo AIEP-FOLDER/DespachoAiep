@@ -41,7 +41,6 @@ fun HomeNavHost(
 ) {
     val carritoViewModel: CarritoViewModel = viewModel()
 
-
     NavHost(
         navController = navController,
         startDestination = HomeDestination.Despacho.route,
@@ -57,7 +56,6 @@ fun HomeNavHost(
         composable(HomeDestination.Productos.route) {
             ProductosScreen(carritoViewModel = carritoViewModel)
         }
-
         composable(HomeDestination.Perfil.route) {
             PerfilScreen(
                 auth = auth,

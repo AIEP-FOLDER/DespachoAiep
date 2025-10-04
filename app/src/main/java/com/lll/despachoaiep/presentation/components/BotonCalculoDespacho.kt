@@ -23,8 +23,6 @@ fun BotonCalculoDespacho(
     temperaturaCamion: Double
 ) {
 
-
-
     Button(
         onClick = {
             if (productosSeleccionados.isEmpty()) {
