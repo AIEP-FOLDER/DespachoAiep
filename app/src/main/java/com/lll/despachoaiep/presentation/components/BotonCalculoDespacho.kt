@@ -5,11 +5,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.lll.despachoaiep.datos.leerRangosLocal
 import com.lll.despachoaiep.datos.obtenerRangosTemperatura
 import com.lll.despachoaiep.utils.calcularDespacho
 import com.lll.despachoaiep.utils.obtenerTemperaturaCamion
 import com.lll.despachoaiep.utils.validarYCalcularDespacho
+import kotlinx.coroutines.launch
 
 @Composable
 fun BotonCalculoDespacho(
@@ -24,6 +28,9 @@ fun BotonCalculoDespacho(
     onSuccess: (Int) -> Unit,
     temperaturaCamion: Double
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
 
     Button(
         onClick = {
@@ -56,6 +63,7 @@ fun BotonCalculoDespacho(
                 val temperatura = temperaturaCamion
                 Log.d("TEMPERATURA", temperatura.toString())
 
+                // Intentar obtener desde Firebas
                 obtenerRangosTemperatura { rangoMinimo, rangoMaximo ->
                     val temperaturaValida = temperatura in rangoMinimo..rangoMaximo
                     if (!temperaturaValida) {
@@ -64,6 +72,17 @@ fun BotonCalculoDespacho(
                     }
                     continuarDespacho()
                 }
+                // Fallback local si Firebase falla
+                scope.launch {
+                    val (minLocal, maxLocal) = leerRangosLocal(context)
+                    val temperaturaValidaLocal = temperatura in minLocal..maxLocal
+                    if (!temperaturaValidaLocal) {
+                        onError("⚠️ Alerta: Temperatura del camión es $temperatura °C. No se puede despachar productos congelados (según rangos locales).")
+                        return@launch
+                    }
+                    continuarDespacho()
+                }
+
 
             }
 

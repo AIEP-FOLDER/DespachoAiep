@@ -87,4 +87,8 @@ dependencies {
     // implementendo lottie
     implementation(libs.lottie.compose)
 
+
+    // data local
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.kotlinx.coroutines.android)
 }

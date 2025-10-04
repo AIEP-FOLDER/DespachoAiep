@@ -1,5 +1,6 @@
 package com.lll.despachoaiep.presentation.admin
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,8 +29,11 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 import com.lll.despachoaiep.datos.eliminarRangosTemperatura
+import com.lll.despachoaiep.datos.guardarRangosLocal
 import com.lll.despachoaiep.datos.guardarRangosTemperatura
+import com.lll.despachoaiep.datos.leerRangosLocal
 import com.lll.despachoaiep.datos.obtenerRangosTemperatura
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -42,13 +46,33 @@ fun PantallaAdmin(auth: FirebaseAuth) {
     val scope = rememberCoroutineScope()
 
 
-    // obtener temperatur min y max desde firebase
+    // obtener temperatur min y max 
     LaunchedEffect(Unit) {
-        obtenerRangosTemperatura { min, max ->
-            minTemp = min.toString()
-            maxTemp = max.toString()
-            rangoActual = Pair(min, max)
+        try {
+            obtenerRangosTemperatura { min, max ->
+                minTemp = min.toString()
+                maxTemp = max.toString()
+                rangoActual = Pair(min, max)
+
+                scope.launch {
+                    // Guardar localmente para fallback
+                    guardarRangosLocal(context, min, max)
+                }
+                Log.d("RangosSync", "Firebase OK → Local actualizado")
+            }
+        } catch (e: Exception) {
+            Log.e("RangosSync", "Error Firebase: ${e.message}")
+
+            // Fallback: leer desde local
+            val (minLocal, maxLocal) = leerRangosLocal(context)
+            minTemp = minLocal.toString()
+            maxTemp = maxLocal.toString()
+            rangoActual = Pair(minLocal, maxLocal)
+
+            Log.d("RangosSync", "Usando rangos locales: min=$minLocal, max=$maxLocal")
         }
+
+
     }
     LazyColumn {
         // Add a single item
@@ -63,7 +87,13 @@ fun PantallaAdmin(auth: FirebaseAuth) {
                     val min = minTemp.toDoubleOrNull()
                     val max = maxTemp.toDoubleOrNull()
                     if (min != null && max != null) {
+                        // guardar en realtimedatabase
                         guardarRangosTemperatura(min, max)
+                        // guardar localmente
+                        scope.launch {
+                            guardarRangosLocal(context, min, max)
+                        }
+                        //-------------
                         Toast.makeText(context, "Rangos guardados", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Valores inválidos", Toast.LENGTH_SHORT).show()
