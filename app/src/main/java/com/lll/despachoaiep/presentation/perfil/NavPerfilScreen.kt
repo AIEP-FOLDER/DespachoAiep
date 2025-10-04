@@ -13,6 +13,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.google.firebase.auth.FirebaseAuth
 import com.lll.despachoaiep.R
@@ -34,7 +37,8 @@ fun NavPerfilScreen(
     nombrePerfil: String,
     modifier: Modifier = Modifier,
     onLogout: () -> Unit,
-    auth: FirebaseAuth
+    auth: FirebaseAuth,
+    rolUsuario: String?
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -57,9 +61,15 @@ fun NavPerfilScreen(
                 style = MaterialTheme.typography.titleMedium,
                 color = Color.White
             )
+            if (rolUsuario != null) {
+                ViewRolUser(
+                    onClick = {},
+                    rolUsuario = rolUsuario,
+                )
+            }
 
         }
-        // ✅ Botón de cerrar sesión
+        // Botón de cerrar sesión
         Button(
             onClick = {
                 auth.signOut()
@@ -81,5 +91,19 @@ fun NavPerfilScreen(
         }
     }
 
+
+}
+
+
+@Composable
+fun ViewRolUser(
+    onClick: () -> Unit, rolUsuario: String
+) {
+    OutlinedButton(
+        onClick = onClick,
+        contentPadding = PaddingValues(horizontal = 2.dp, vertical = 2.dp)
+    ) {
+        Text(text = rolUsuario, fontSize = 12.sp)
+    }
 
 }

@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,10 +21,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.lll.despachoaiep.datos.productos
 import com.lll.despachoaiep.presentation.components.topBar.CarritoViewModel
 import com.lll.despachoaiep.presentation.components.topBar.TopBarContainer
 import com.lll.despachoaiep.ui.theme.Black
+import com.lll.despachoaiep.utils.rememberRolUsuario
 import com.lll.despachoaiep.utils.subirProductosIniciales
 
 
@@ -41,6 +46,11 @@ fun HomeScreen(
 
     val carritoViewModel: CarritoViewModel = viewModel()
 
+    //-----------------------------------------
+    // DETECTAR EL ROL DEL USUARIO REGISTRADO
+    var rolUsuario = rememberRolUsuario()
+    //-----------------------------------------
+
 
     Scaffold(
         topBar = {
@@ -57,9 +67,14 @@ fun HomeScreen(
                 containerColor = Black,
                 tonalElevation = 0.dp
             ) {
-                HomeDestination.all.filterNotNull().forEach { destination ->
+                val destinos = if (rolUsuario == "admin") {
+                    HomeDestination.all + HomeDestination.adminOnly
+                } else {
+                    HomeDestination.all
+                }
+
+                destinos.forEach { destination ->
                     NavigationBarItem(
-                        //selected = selectedRoute == destination.route,
                         selected = currentRoute == destination.route,
                         onClick = {
                             navController.navigate(destination.route) {
@@ -87,7 +102,8 @@ fun HomeScreen(
             navController = navController,
             auth = auth,
             onLogout = onLogout,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            rolUsuario = rolUsuario
         )
     }
 

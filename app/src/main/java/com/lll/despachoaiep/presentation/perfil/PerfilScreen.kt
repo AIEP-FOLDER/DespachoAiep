@@ -11,11 +11,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.RichTooltip
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.lll.despachoaiep.model.EstadoEntrega
@@ -36,7 +47,8 @@ import com.lll.despachoaiep.ui.theme.Black
 fun PerfilScreen(
     auth: FirebaseAuth,
     onLogout: () -> Unit,
-    viewModel: DespachoViewModel = viewModel()
+    viewModel: DespachoViewModel = viewModel(),
+    rolUsuario: String?
 
 ) {
     val usuarioActual = FirebaseAuth.getInstance().currentUser
@@ -67,60 +79,6 @@ fun PerfilScreen(
     }
 
 
-    /*
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Black),
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-            Column(
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                NavPerfilScreen(imgUsuario, nombreUsuario, nombreUsuario)
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            //Vista dinamica de reparto
-            SegmentoEstadoEntrega(
-                estadoSeleccionado = estadoSeleccionado,
-                onEstadoChange = { estadoSeleccionado = it }
-            )
-            LazyColumn {
-                items(pedidosFiltrados) { pedido ->
-                    CardPedido(pedido, uid, viewModel)
-                }
-            }
-
-            // Empuja el botón hacia abajo
-            Spacer(modifier = Modifier.weight(1f))
-
-            Button(
-                onClick = {
-                    auth.signOut()
-                    onLogout()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 32.dp,
-                        vertical = 16.dp
-                    )
-            ) {
-                Text("Cerrar sesión", color = Color.White)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-
-
-        }
-    }
-*/
     Surface(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier
@@ -135,8 +93,11 @@ fun PerfilScreen(
                         nombreUsuario,
                         nombreUsuario,
                         onLogout = onLogout,
-                        auth = auth
+                        auth = auth,
+                        rolUsuario = rolUsuario
                     )
+
+
                 }
             }
 
@@ -145,8 +106,7 @@ fun PerfilScreen(
             item {
                 SegmentoEstadoEntrega(
                     estadoSeleccionado = estadoSeleccionado,
-                    onEstadoChange = { estadoSeleccionado = it }
-                )
+                    onEstadoChange = { estadoSeleccionado = it })
             }
 
             if (pedidosFiltrados.isEmpty()) {
@@ -169,3 +129,5 @@ fun PerfilScreen(
 
 
 }
+
+
