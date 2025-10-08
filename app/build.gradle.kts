@@ -18,6 +18,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val apiKey: String = project.findProperty("OPENROUTESERVICE_API_KEY") as? String ?: ""
+        buildConfigField("String", "OPENROUTESERVICE_API_KEY", "\"$apiKey\"")
+
+
     }
 
     buildTypes {
@@ -38,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -91,4 +97,7 @@ dependencies {
     // data local
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.coroutines.android)
+
+    // maps
+    implementation(libs.osmdroid.android)
 }

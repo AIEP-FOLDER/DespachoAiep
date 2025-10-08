@@ -2,7 +2,6 @@ package com.lll.despachoaiep.datos
 
 import com.google.firebase.database.FirebaseDatabase
 import com.lll.despachoaiep.model.LecturaTemperatura
-import okhttp3.Callback
 
 class FirebaseTemperaturaDataSource {
     private val dbRef = FirebaseDatabase.getInstance()

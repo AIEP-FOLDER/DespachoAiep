@@ -15,6 +15,9 @@ class DespachoViewModel : ViewModel() {
     private val _pedidos = mutableStateListOf<PedidoConEstado>()
     val pedidos: List<PedidoConEstado> get() = _pedidos
 
+    val pedidosEnReparto: List<PedidoConEstado>
+        get() = pedidos.filter { it.estado == EstadoEntrega.Reparto }
+
     fun cargarPedidos(uid: String) {
         val ref = FirebaseDatabase.getInstance().getReference("envios").child(uid)
         ref.addValueEventListener(object : ValueEventListener {
@@ -25,9 +28,7 @@ class DespachoViewModel : ViewModel() {
                     val pedidoId = pedidoSnapshot.key ?: continue
 
                     envio?.let {
-                        val estadoEnum = EstadoEntrega.entries.firstOrNull { enum ->
-                            enum.name == envio.estadoEntrega
-                        } ?: EstadoEntrega.Reparto
+                        val estadoEnum = EstadoEntrega.from(envio.estadoEntrega)
 
                         _pedidos.add(PedidoConEstado(envio, estadoEnum, pedidoId))
                     }
@@ -39,7 +40,6 @@ class DespachoViewModel : ViewModel() {
             }
         })
     }
-
 
     fun actualizarEstado(uid: String, pedidoId: String, nuevoEstado: EstadoEntrega) {
         val ref = FirebaseDatabase.getInstance()

@@ -15,6 +15,7 @@ import com.lll.despachoaiep.presentation.despacho.DespachoScreen
 import com.lll.despachoaiep.presentation.perfil.PerfilScreen
 import com.lll.despachoaiep.presentation.productos.ProductosScreen
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -22,17 +23,21 @@ import androidx.compose.material3.Text
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lll.despachoaiep.presentation.admin.PantallaAdmin
 import com.lll.despachoaiep.presentation.components.topBar.CarritoViewModel
+import com.lll.despachoaiep.presentation.mapaview.MapaPedidoScreen
 
 sealed class HomeDestination(val route: String, val icon: ImageVector, val label: String) {
     object Productos : HomeDestination("productos", Icons.Default.ShoppingCart, "Productos")
     object Despacho : HomeDestination("despacho", Icons.Default.LocalShipping, "Despacho")
     object Perfil : HomeDestination("perfil", Icons.Default.Person, "Perfil")
 
+    // añadir mapsview
+    object MapsView : HomeDestination("maps", Icons.Default.Map, "Mapa")
+
     // exclusivo para admin
     object Admin : HomeDestination("admin", Icons.Default.Settings, "Admin")
 
     companion object {
-        val all: List<HomeDestination> = listOf(Productos, Despacho, Perfil)
+        val all: List<HomeDestination> = listOf(Productos, Despacho, Perfil, MapsView)
         val adminOnly: List<HomeDestination> = listOf(Admin)
     }
 
@@ -64,6 +69,10 @@ fun HomeNavHost(
         composable(HomeDestination.Productos.route) {
             ProductosScreen(carritoViewModel = carritoViewModel)
         }
+        composable(HomeDestination.MapsView.route) {
+            MapaPedidoScreen()
+        }
+
         composable(HomeDestination.Perfil.route) {
             PerfilScreen(
                 auth = auth,

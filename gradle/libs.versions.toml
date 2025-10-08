@@ -24,6 +24,7 @@ coil = "2.7.0"
 
 credentialsPlayServicesAuth = "1.5.0"
 googleid = "1.1.1"
+osmdroidAndroid = "6.1.16"
 playServicesLocation = "21.0.1"
 
 
@@ -72,6 +73,7 @@ googleid = { group = "com.google.android.libraries.identity.googleid", name = "g
 
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
+osmdroid-android = { module = "org.osmdroid:osmdroid-android", version.ref = "osmdroidAndroid" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 
 

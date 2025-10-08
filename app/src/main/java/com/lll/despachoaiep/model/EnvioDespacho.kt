@@ -4,7 +4,13 @@ package com.lll.despachoaiep.model
 enum class EstadoEntrega {
     Entregado,
     Reparto,
-    ErrorEnvio
+    ErrorEnvio;
+
+    companion object {
+        fun from(nombre: String): EstadoEntrega =
+            entries.firstOrNull { it.name.equals(nombre.trim(), ignoreCase = true) } ?: ErrorEnvio
+    }
+
 }
 
 
