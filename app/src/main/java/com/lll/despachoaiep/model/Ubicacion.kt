@@ -6,5 +6,4 @@ data class UbicacionGps(
     val timestamp: Long = System.currentTimeMillis(),
     val nombreUsuario: String = "",
     val correo: String = ""
-
 )

@@ -15,13 +15,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,6 +35,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.firebase.auth.FirebaseAuth
 import com.lll.despachoaiep.R
 import com.lll.despachoaiep.R.*
@@ -71,6 +80,10 @@ fun MapaPedidoScreen(
     val pedidoActual = pedidosEnReparto.getOrNull(pedidoSeleccionadoIndex)
 
     //-------------
+    // Estados De la distacia y duracion
+    var distanciaKm by remember { mutableStateOf<Double?>(null) }
+    var duracionMin by remember { mutableStateOf<Double?>(null) }
+
 
     Column {
         /*
@@ -90,6 +103,10 @@ fun MapaPedidoScreen(
                         latCliente = pedidoActual.envio.latitud,
                         lonCliente = pedidoActual.envio.longitud,
                         pedidoActual = pedidoActual.envio,
+                        onRutaCalculada = { distancia, duracion ->
+                            distanciaKm = distancia
+                            duracionMin = duracion
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight()
@@ -106,6 +123,60 @@ fun MapaPedidoScreen(
                         .align(Alignment.TopCenter)
                         .padding(top = 16.dp)
                 )
+                if (distanciaKm != null && duracionMin != null) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(16.dp)
+                    ) {
+                        Card(
+                            shape = RoundedCornerShape(12.dp),
+                            elevation = CardDefaults.cardElevation(8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White)
+                        ) {
+                            Column(modifier = Modifier.padding(12.dp)) {
+                                Text("🛣️ Distancia: %.2f km".format(distanciaKm!!), color = Color.Black)
+                                Text("⏱️ Duración: %.1f min".format(duracionMin!!), color = Color.Black)
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+        } else {
+            // Si el listado de pedidos está vacío, muestra un mensaje
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column {
+                    Text(
+                        text = "No tienes pedidos asignados actualmente.",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    val composition by rememberLottieComposition(
+                        LottieCompositionSpec.Asset("maps_empty.json")
+                    )
+                    val progress by animateLottieCompositionAsState(
+                        composition,
+                        iterations = LottieConstants.IterateForever
+                    )
+
+                    LottieAnimation(
+                        composition = composition,
+                        progress = { progress },
+                        modifier = Modifier
+                            .height(200.dp)
+                            .fillMaxWidth()
+                    )
+
+                }
 
             }
 

@@ -23,8 +23,6 @@ fun obtenerUbicacionActual(
         .setMaxUpdates(1)
         .build()
 
-
-
     fusedLocationClient.requestLocationUpdates(
         locationRequest,
         object : LocationCallback() {

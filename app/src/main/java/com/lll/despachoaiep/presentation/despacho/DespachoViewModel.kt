@@ -29,7 +29,6 @@ class DespachoViewModel : ViewModel() {
 
                     envio?.let {
                         val estadoEnum = EstadoEntrega.from(envio.estadoEntrega)
-
                         _pedidos.add(PedidoConEstado(envio, estadoEnum, pedidoId))
                     }
                 }

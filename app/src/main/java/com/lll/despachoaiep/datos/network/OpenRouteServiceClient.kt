@@ -83,13 +83,14 @@ class OpenRouteServiceClient {
                         .getJSONObject("summary")
 
                     Log.d("OpenRouteService", "summary: $summary")
-                    val distanciaMetros = summary.getDouble("distance")
-                    val duracionSegundos = summary.getDouble("duration")
+                    val distanciaKm = summary.getDouble("distance") / 1000.0
+                    val duracionMin = summary.getDouble("duration") / 60.0
 
-                    Log.d("OpenRouteService", "Distancia: $distanciaMetros m")
-                    Log.d("OpenRouteService", "Duración: $duracionSegundos s")
 
-                    onSuccess(ruta, distanciaMetros, duracionSegundos)
+                    Log.d("OpenRouteService", "Distancia: $distanciaKm Km")
+                    Log.d("OpenRouteService", "Duración: $duracionMin m")
+
+                    onSuccess(ruta, distanciaKm, duracionMin)
                 } catch (e: Exception) {
                     onError("Error al parsear la ruta: ${e.message}")
                 }

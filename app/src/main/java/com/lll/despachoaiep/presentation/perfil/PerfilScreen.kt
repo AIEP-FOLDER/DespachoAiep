@@ -96,8 +96,6 @@ fun PerfilScreen(
                         auth = auth,
                         rolUsuario = rolUsuario
                     )
-
-
                 }
             }
 

@@ -1,6 +1,7 @@
 package com.lll.despachoaiep.presentation.despacho
 
 
+import android.Manifest
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -47,10 +48,12 @@ import com.lll.despachoaiep.utils.obtenerUbicacionActual
 import kotlinx.coroutines.delay
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import androidx.core.content.ContextCompat
 import com.lll.despachoaiep.utils.reproducirSonidoError
 import com.lll.despachoaiep.utils.vibrar
 
@@ -111,7 +114,6 @@ fun DespachoScreen(
      */
     val temperaturaCamion = remember { mutableStateOf<Double?>(null) }
     val fuenteTemperatura = remember { FirebaseTemperaturaDataSource() }
-
 
 
     // Launch para obtener la ubicacion siempre actualizada

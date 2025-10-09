@@ -69,31 +69,8 @@ com.lll.despachoaiep
 ├── utils
 ```
 
-## Capturas de pantalla
-
-- Login
-
-![ev1](evidencia/Grabación%202025-09-19%20203020.gif)
-
-- Catálogo de productos
-
-![ev1](evidencia/Grabación%202025-09-19%20203429.gif)
-
-![ev1](evidencia/Grabación%202025-09-19%20203544.gif)
-
-- Cálculo de despacho con validación
-
-![ev1](evidencia/Grabación%202025-09-23%20114627.gif)
-
-- Calcula la distancia desde la plaza de arma de Puerto Varas hasta el lugar donde se encuentra el usuario, usando GPS. Ademas guarda la ubicacion GPS en Firebase realtime database.
-
-![ev1](evidencia/Grabación%202025-09-19%20203723.gif)
-
-- Vista de Perfil
-
-![ev1](evidencia/image.png)
-
 ---
+
 
 ## Instalación
 
@@ -115,14 +92,21 @@ https://github.com/AIEP-FOLDER/DespachoAiep/tree/aiep
 
 Este proyecto fue desarrollado como parte de una actividad evaluativa. El informe completo incluye:
 
--     Introducción y contexto
--     Prototipo funcional y no funcional
--     Modelo Canvas del negocio
--     Desarrollo técnico y decisiones justificadas
--     Evidencia de instalación y funcionamiento
--     Código fuente modularizado
--     Conclusión reflexiva
--     Bibliografía en formato APA
+- Introducción y contexto
+
+- Prototipo funcional y no funcional
+
+- Modelo Canvas del negocio
+
+- Desarrollo técnico y decisiones justificadas
+
+- Evidencia de instalación y funcionamiento
+
+- Código fuente modularizado
+
+- Conclusión reflexiva
+
+- Bibliografía en formato APA
 
 ---
 

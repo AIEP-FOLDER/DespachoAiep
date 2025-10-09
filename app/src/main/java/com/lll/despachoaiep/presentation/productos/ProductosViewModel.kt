@@ -29,7 +29,6 @@ class ProductosViewModel : ViewModel() {
 
     init {
         cargarProductosDesdeFirebase()
-
     }
 
     private fun cargarProductosDesdeFirebase() {
@@ -56,6 +55,4 @@ class ProductosViewModel : ViewModel() {
             Log.e("Firebase", "Error al leer productos: ${it.message}")
         }
     }
-
-
 }

@@ -132,17 +132,21 @@ fun ViewResultadosSheet(
                 Button(
                     onClick = {
 
-                        // primero quiero validar que tenga la ubicacion, nombre usuario y correo
+                        /*
+                        Validacion antes de grabar en mi base de datos
+                        */
                         if (
                             ubicacionActual.latitud != 0.0 &&
                             ubicacionActual.longitud != 0.0 &&
-                            ubicacionActual.nombreUsuario.isNotBlank() &&
                             ubicacionActual.correo.isNotBlank()
                         ) {
                             // aqui utilizo mi modelo "Envio despacho" para crear el objeto
 
+                            val nombreUsuarioSeg =
+                                ubicacionActual.nombreUsuario.ifBlank { "Usuario" };
+
                             val envio = EnvioDespacho(
-                                nombreUsuario = ubicacionActual.nombreUsuario,
+                                nombreUsuario = nombreUsuarioSeg,
                                 correo = ubicacionActual.correo,
                                 direccionEntrega = direccionEntrega,
                                 contactoEntrega = contactoEntrega,

@@ -82,8 +82,8 @@ fun BotonCalculoDespacho(
                     }
                     continuarDespacho()
                 }
-
-
+            } else {
+                continuarDespacho()
             }
 
         }, modifier = Modifier.fillMaxWidth()
